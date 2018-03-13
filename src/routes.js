@@ -4,6 +4,8 @@ import Form from './components/Form.vue';
 import DynamicRoute from './components/DynamicRoute.vue';
 import NotFound from './components/NotFound.vue';
 
+import Registration from './components/Registration.vue';
+
 import PanelLeft from './components/LeftPanel.vue';
 import PanelRight from './components/RightPanel.vue';
 
@@ -23,6 +25,10 @@ export default [
   {
     path: '/panel-right/',
     component: PanelRight
+  },
+  {
+    path: '/registration/',
+    component: Registration
   },
   {
     path: '/about/',

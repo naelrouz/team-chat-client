@@ -1,6 +1,6 @@
 // Import Vue
 import Vue from 'vue';
-import MultiLanguage from 'vue-multilanguage';
+import multiLanguage from 'vue-multilanguage';
 
 // import vueConfig from 'vue-config;
 
@@ -40,7 +40,7 @@ import App from './App.vue';
 Vue.use(Framework7Vue, Framework7);
 // Init Multi-Language plugin for Vue.js
 
-Vue.use(MultiLanguage, languages);
+Vue.use(multiLanguage, languages);
 
 // Init App
 const FitLead = new Vue({

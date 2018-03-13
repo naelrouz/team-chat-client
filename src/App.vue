@@ -36,9 +36,10 @@
               f7-label Password
               f7-input(name='password', type='password', placeholder='Password')
           f7-list
-            f7-list-button(title='Sign In', login-screen-close='')
+            f7-list-button(title='x', login-screen-close='')
             f7-block-footer
-              p Click Sign In to close Login Screen
+              p or
+            f7-link(href='/registration/') Registration
 
 </template>
 
