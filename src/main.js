@@ -1,14 +1,17 @@
 // Import Vue
 import Vue from 'vue';
+// import VueRouter from 'vue-router';
 import multiLanguage from 'vue-multilanguage';
 
 // import vueConfig from 'vue-config;
 
 // Import F7
-import Framework7 from 'framework7/dist/framework7.esm.bundle.js';
+import Framework7 from 'framework7/dist/framework7.esm.bundle';
+// import Framework7 from 'framework7';
 
 // Import F7 Vue Plugin
-import Framework7Vue from 'framework7-vue/dist/framework7-vue.esm.bundle.js';
+import Framework7Vue from 'framework7-vue/dist/framework7-vue.esm.bundle';
+// import Framework7Vue from 'framework7-vue';
 
 // Import F7 Styles
 import Framework7Styles from 'framework7/dist/css/framework7.css';
@@ -18,9 +21,9 @@ import IconsStyles from './css/icons.css';
 import AppStyles from './css/app.css';
 
 // Import Routes
-import Routes from './routes';
+import routes from './routes';
 // Import Vuex store
-import store from './store/store';
+import store from './store';
 // Apollo
 import apolloProvider from './apollo/apollo-provider';
 
@@ -38,9 +41,14 @@ import App from './App.vue';
 
 // Init F7 Vue Plugin
 Vue.use(Framework7Vue, Framework7);
-// Init Multi-Language plugin for Vue.js
 
+// Init Multi-Language plugin for Vue.js
 Vue.use(multiLanguage, languages);
+
+// const router = new VueRouter({
+//   mode: 'history',
+//   routes
+// });
 
 // Init App
 const FitLead = new Vue({
@@ -51,10 +59,17 @@ const FitLead = new Vue({
     id: 'io.framework7.testapp', // App bundle ID
     name: 'FitLead', // App name
     theme: 'md', // Automatic theme detection
-    pushState: true,
+    // root: '#app',
+    // animateNavBackIcon: true,
+    swipePanel: 'left',
+    view: {
+      // main: true,
+      // pushState: true
+    },
     // App routes
-    routes: Routes
+    routes
   },
+  // router,
   store,
   apolloProvider,
   // Register App Component
@@ -63,4 +78,6 @@ const FitLead = new Vue({
   }
 });
 
-export default { FitLead };
+console.log(FitLead);
+
+export { FitLead, Framework7 };

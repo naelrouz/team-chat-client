@@ -1,0 +1,11 @@
+mutation($email: String!, $password: String!) {
+  login(email: $email, password: $password) {
+    status
+    token
+    refreshToken
+    errors {
+      path
+      message
+    }
+  }
+}

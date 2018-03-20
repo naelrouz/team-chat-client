@@ -5,22 +5,28 @@ import gql from 'graphql-tag';
 import apolloClient from '../../apollo/apollo-client';
 
 const state = {
-  allUsersList: []
-  // registerResponse: {}
+  allUsersList: [],
+  username:'',
+  token: '',
+  refreshToken: ''
 };
 
 const getters = {
-  allUsersList(state) {
-    return state.allUsersList;
-  }
-  // registerResponse(state) {
-  //   return state.registerResponse;
-  // }
+  allUsersList: ({ allUsersList }) => allUsersList,
+  token: ({ token }) => token,
+  refreshToken: ({ refreshToken }) => refreshToken,
+  getTokens: ({ token, refreshToken }) => ({ token, refreshToken })
 };
 
 const mutations = {
   SET_USERS_LIST(state, allUsersList) {
     state.allUsersList = allUsersList;
+  },
+  SET_TOKEN(state, token) {
+    state.token = token;
+  },
+  SET_REFRESH_TOKEN(state, refreshToken) {
+    state.refreshToken = refreshToken;
   }
   // SET_REGISTER_RESPONSE(state, registerResponse) {
   //   state.registerResponse = registerResponse;
@@ -46,32 +52,6 @@ const actions = {
         commit('SET_USERS_LIST', allUsers);
       });
   }
-  // register({ commit }, user) {
-  //   // console.log('actions.register.user: ', user);
-
-  //   apolloClient
-  //     .mutate({
-  //       mutation: gql`
-  //         mutation {
-  //           register(username: "${user.name}", password: "${
-  //         user.password
-  //       }", email: "${user.email}") {
-  //             status
-  //             errors{
-  //               path,
-  //               message
-  //             }
-  //           }
-  //         }
-  //       `
-  //     })
-  //     .then(({ data }) => {
-  //       const { register } = data;
-  //       // console.log('actions.register.response: ', data);
-  //       commit('SET_REGISTER_RESPONSE', register);
-  //     })
-  //     .catch(err => console.log('actions.register.err: ', err));
-  // }
 };
 
 export default {

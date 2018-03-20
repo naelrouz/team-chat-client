@@ -6,7 +6,7 @@
     //-   f7-link Right Link
     //- f7-block(strong='')
     //-   p Here is your blank Framework7 app. Let's see what we have here.
-    
+
     f7-block-title Users
     f7-list
       f7-list-item(
@@ -16,13 +16,19 @@
       :title='user.username'
       )
     f7-block-title Navigation
-    
+
 
     f7-list
-      //- f7-list-item(link='/trainings/', :title='TRAININGS', view='#main-view', panel-close='')   
-           
+      //- f7-list-item(link='/trainings/', :title='TRAININGS', view='#main-view', panel-close='')
+
+      f7-list-item(link='/login/', title='Login')
       f7-list-item(link='/registration/', title='Registration')
-      
+      f7-list-item(link='/team-create/', title='Team create')
+      f7-list-item(link='/messages/', title='Messages')
+
+
+
+
       f7-list-item(link='/about/', title='About')
       f7-list-item(link='/form/', title='Form')
     f7-block-title Modals
@@ -47,7 +53,9 @@
 
 </template>
 <script>
-import Navbar from './Navbar';
+import { f7Page, f7BlockTitle, f7List, f7ListItem } from 'framework7-vue';
+
+import Navbar from './navbar/Navbar';
 import { mapGetters, mapActions } from 'vuex';
 
 export default {

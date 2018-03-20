@@ -1,17 +1,22 @@
+// Pages
 import Home from './components/Home.vue';
-import About from './components/About.vue';
-import Form from './components/Form.vue';
-import DynamicRoute from './components/DynamicRoute.vue';
+import About from "./components/About.vue";
+import Form from "./components/Form.vue";
+import DynamicRoute from "./components/DynamicRoute.vue";
 import NotFound from './components/NotFound.vue';
-
 import Registration from './components/Registration.vue';
+import Login from './components/Login.vue';
+import TeamCreate from './components/TeamCreate.vue';
+import Messages from './components/Messages.vue';
 
-import PanelLeft from './components/LeftPanel.vue';
-import PanelRight from './components/RightPanel.vue';
+// LeftPanel
+import LeftPanel from './components/left-panel/LeftPanel.vue';
+import Teams from './components/left-panel/Teams.vue';
 
-// const a: number = 5;
 
-// console.log(a);
+import RightPanel from './components/RightPanel.vue';
+
+
 
 export default [
   {
@@ -20,26 +25,59 @@ export default [
   },
   {
     path: '/panel-left/',
-    component: PanelLeft
+    component: LeftPanel
+  },
+  {
+    path: '/teams/',
+    component: Teams
   },
   {
     path: '/panel-right/',
-    component: PanelRight
+    component: RightPanel
   },
   {
     path: '/registration/',
     component: Registration
   },
   {
-    path: '/about/',
+    path: '/login/',
+    component: Login
+  },
+  {
+    path: '/team-create/',
+    component: TeamCreate
+    // on: {
+
+    //   pageAfterIn(e, page) {
+    //     // do something after page gets into the view
+    //     console.log('pageAfterIn.e', e);
+    //     console.log('pageAfterIn.page', page);
+
+    //     const clientAuthStatus = isAuth();
+    //     console.log('clientAuthStatus: ', clientAuthStatus);
+
+    //     if (!clientAuthStatus) {
+    //       console.log('GOTO: login');
+    //       page.router.navigate('/login/');
+    //     }
+    //   }
+    // }
+  },
+
+  {
+    path: '/messages/',
+    component: Messages
+  },
+  {
+    path: "/about/",
     component: About
   },
   {
-    path: '/form/',
+    path: "/form/",
     component: Form
   },
   {
-    path: '/dynamic-route/blog/:blogId/post/:postId/',
+    path: "/dynamic-route/blog/:blogId/post/:postId/",
     component: DynamicRoute
   },
   {

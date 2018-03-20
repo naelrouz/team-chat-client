@@ -5,6 +5,7 @@ A full-featured Framework7 Vue with Webpack setup with hot-reload & css extracti
 ## Usage
 
 ### 1. Download this repository
+
 ```
 git clone https://github.com/framework7io/framework7-template-vue-webpack my-app
 ```
@@ -14,6 +15,7 @@ Repository will be downloaded into `my-app/` folder
 ### 2. Instal dependencies
 
 Go to the downloaded repository folder and run:
+
 ```
 npm install
 ```
@@ -51,7 +53,7 @@ npm run dev
 
 ## Build Setup
 
-``` bash
+```bash
 # install dependencies
 npm install
 
@@ -71,3 +73,7 @@ npm run build
 * `src/main.js` - main app file where you include/import all required libs and init app
 * `src/routes.js` - app routes
 * `src/app.vue` - main app structure/component
+
+## Apollo 2.0 Migration
+
+https://github.com/apollographql/apollo-client/blob/master/docs/source/2.0-migration.md

@@ -1,0 +1,9 @@
+mutation($name: String!) {
+  createTeam(name: $name) {
+    status
+    errors {
+      path
+      message
+    }
+  }
+}
