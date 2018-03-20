@@ -1,17 +1,24 @@
-// import Vue from 'vue';
+import decode from "jwt-decode";
+import gql from "graphql-tag";
 
-import gql from 'graphql-tag';
-
-import apolloClient from '../../apollo/apollo-client';
+import apolloClient from "../../apollo/apollo-client";
 
 const state = {
   allUsersList: [],
-  username:'',
-  token: '',
-  refreshToken: ''
+  token: "",
+  refreshToken: ""
 };
 
 const getters = {
+  username: ({ token }) => {
+    try {
+      const { user: { username } } = decode(token);
+      // eslint-disable-next-line prefer-destructuring
+      return username;
+    } catch (err) {
+      return false
+    }
+  },
   allUsersList: ({ allUsersList }) => allUsersList,
   token: ({ token }) => token,
   refreshToken: ({ refreshToken }) => refreshToken,
@@ -48,8 +55,8 @@ const actions = {
       })
       .then(({ data: { allUsers } }) => {
         // const {  } = data;
-        console.log('actions.allUsers.result', allUsers);
-        commit('SET_USERS_LIST', allUsers);
+        // console.log('actions.allUsers.result', allUsers);
+        commit("SET_USERS_LIST", allUsers);
       });
   }
 };

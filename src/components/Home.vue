@@ -71,7 +71,9 @@ export default {
     Navbar
   },
   mounted() {
-    this.$store.dispatch('allUsers', 1);
+    this.$store.dispatch('allUsers');
+    this.$store.dispatch("allTeams");
+
   }
 };
 </script>

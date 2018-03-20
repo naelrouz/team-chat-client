@@ -48,7 +48,6 @@ const httpLink = new HttpLink({
 const authMiddleware = new ApolloLink((operation, forward) => {
   const { token, refreshToken } = store.getters;
 
-  console.log('>>', forward(operation));
 
   // add the authorization to the headers
   operation.setContext(({ headers = {} }) => ({
@@ -78,10 +77,8 @@ const authMiddleware = new ApolloLink((operation, forward) => {
 
 const afterwareLink = new ApolloLink((operation, forward) => {
   return forward(operation).map(response => {
-    console.log('afterwareLink.response: ', response);
 
     const context = operation.getContext();
-    console.log('afterwareLink.context: ', context);
 
     const { response: { headers } } = context;
 

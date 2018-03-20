@@ -5,13 +5,13 @@
         p Left panel content goes here
     f7-block-title Current Team
     f7-list
-        f7-list-item(link='/teams/', title='TeamName')
+        f7-list-item(link='/teams/', :title='selectedTeamName')
 
 
 
     f7-block-title Team Channels
     f7-list
-      f7-list-item(v-for='(channel, index) in channels', link='/about/', :title='channel.name', view='#main-view', panel-close='')
+      f7-list-item(v-for='(channel, index) in selectedTeamChannels', link='/about/', :title='channel.name', :key="channel.id", view='#main-view', panel-close='')
 
 
 
@@ -28,7 +28,9 @@ import { mapGetters } from "vuex";
 export default {
   computed: {
     ...mapGetters({
-      name: "name"
+      name: "name",
+      selectedTeamName: 'selectedTeamName',
+      selectedTeamChannels: 'selectedTeamChannels'
     }),
     channels() {
       return [{ id: 1, name: "Channal-1" }, { id: 2, name: "Channal-2" }];

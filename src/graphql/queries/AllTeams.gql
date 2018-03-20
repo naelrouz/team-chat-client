@@ -1,0 +1,9 @@
+{
+  allTeams{
+    id
+    name
+    channels{
+      name
+    }
+  }
+}
