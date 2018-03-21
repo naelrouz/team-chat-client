@@ -3,6 +3,10 @@ mutation($name: String!) {
     status
     team {
       id
+      name
+      channels {
+        name
+      }
     }
     errors {
       path

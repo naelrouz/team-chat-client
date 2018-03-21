@@ -26,11 +26,12 @@
       f7-list-item(link='/team-create/', title='Team create')
       f7-list-item(link='/messages/', title='Messages')
 
-
-
-
       f7-list-item(link='/about/', title='About')
       f7-list-item(link='/form/', title='Form')
+
+
+      f7-button(fill='', raised='', @click="testClick") testClick
+
     f7-block-title Modals
     f7-block(strong='')
       f7-row
@@ -65,6 +66,14 @@ export default {
     }),
     TRAININGS() {
       return this.translate('TRAININGS');
+    }
+  },
+  methods: {
+    testClick() {
+      this.$store.commit('addCustomer', {
+        id: 99999,
+        name: 'Team-!!!!!'
+      });
     }
   },
   components: {

@@ -72,34 +72,34 @@ export default {
       console.log('clientValidateStatus: ', clientValidateStatus);
 
       if (clientValidateStatus) {
-        const team = {
+        const newTeam = {
           name: this.name
         };
 
-        try {
-          const {
-            data: { createTeam: { status, errors, team: { id } } }
-          } = await createTeam(team);
+        // try {
+        const {
+          data: { createTeam: { status, errors, team } }
+        } = await createTeam(newTeam);
 
-          console.log('id:', id);
+        if (status) {
+          console.log('team:', team);
 
-          if (status) {
-            this.$store.dispatch('allTeams');
-            // this.$f7router.navigate('/');
-          } else {
-            // if something is wrong with server-side validation
-            console.log('createTeam.status: ', status);
-            // console.log('registerResponse.errors: ', errors);
+          // this.$store.commit('ADD_NEW_TEAM', team);
+          this.$f7router.navigate('/');
+        } else {
+          // if something is wrong with server-side validation
+          console.log('createTeam.status: ', status);
+          // console.log('registerResponse.errors: ', errors);
 
-            teamCreateFormVH.setAllMessages(errors);
-          }
-        } catch (err) {
-          console.log('createTeam.err: ', err.toString());
-          if (err.toString() === 'Error: GraphQL error: Not authenticated') {
-            console.log('GOTO: login');
-            this.$f7router.navigate('/login/');
-          }
+          teamCreateFormVH.setAllMessages(errors);
         }
+        // } catch (err) {
+        //   console.log('createTeam.err: ', err);
+        //   if (err.toString() === 'Error: GraphQL error: Not authenticated') {
+        //     console.log('GOTO: login');
+        //     this.$f7router.navigate('/login/');
+        //   }
+        // }
       }
 
       // TODO

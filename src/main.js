@@ -78,5 +78,4 @@ const FitLead = new Vue({
   }
 });
 
-
 export { FitLead, Framework7 };
