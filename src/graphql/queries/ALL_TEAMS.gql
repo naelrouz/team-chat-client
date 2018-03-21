@@ -1,8 +1,8 @@
 {
-  allTeams{
+  allTeams {
     id
     name
-    channels{
+    channels {
       name
     }
   }

@@ -2,7 +2,7 @@
   f7-page
     f7-navbar(title='Left Panel')
     f7-block(strong='')
-        p Left panel content goes here
+        h2 / {{ username }} /
     f7-block-title Current Team
     f7-list
         f7-list-item(link='/teams/', :title='selectedTeamName')
@@ -30,7 +30,8 @@ export default {
     ...mapGetters({
       name: "name",
       selectedTeamName: 'selectedTeamName',
-      selectedTeamChannels: 'selectedTeamChannels'
+      selectedTeamChannels: 'selectedTeamChannels',
+      username:"username"
     }),
     channels() {
       return [{ id: 1, name: "Channal-1" }, { id: 2, name: "Channal-2" }];

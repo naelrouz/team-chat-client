@@ -77,12 +77,14 @@ export default {
         };
 
         try {
-          const { data: { createTeam: { status, errors } } } = await createTeam(
-            team
-          );
+          const {
+            data: { createTeam: { status, errors, team: { id } } }
+          } = await createTeam(team);
+
+          console.log('id:', id);
 
           if (status) {
-            // if all ok
+            this.$store.dispatch('allTeams');
             // this.$f7router.navigate('/');
           } else {
             // if something is wrong with server-side validation

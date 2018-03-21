@@ -1,7 +1,7 @@
 // import gql from "graphql-tag";
 
 import apolloClient from '../apollo/apollo-client';
-import CREATE_TEAM from '../graphql/mutations/CreateTeam.gql';
+import CREATE_TEAM from '../graphql/mutations/CREATE_TEAM.gql';
 
 // import vueStore from '../store';
 

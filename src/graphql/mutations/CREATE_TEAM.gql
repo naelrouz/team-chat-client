@@ -1,6 +1,9 @@
 mutation($name: String!) {
   createTeam(name: $name) {
     status
+    team {
+      id
+    }
     errors {
       path
       message

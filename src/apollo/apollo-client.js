@@ -48,7 +48,6 @@ const httpLink = new HttpLink({
 const authMiddleware = new ApolloLink((operation, forward) => {
   const { token, refreshToken } = store.getters;
 
-
   // add the authorization to the headers
   operation.setContext(({ headers = {} }) => ({
     headers: {
@@ -61,26 +60,15 @@ const authMiddleware = new ApolloLink((operation, forward) => {
   return forward(operation);
 });
 
-// const otherMiddleware = new ApolloLink((operation, forward) => {
-//   // add the authorization to the headers
-//   operation.setContext(({ headers = {} }) => ({
-//     headers: {
-//       ...headers,
-//       'recent-activity': localStorage.getItem('lastOnlineTime') || null
-//     }
-//   }));
+// TODO concat afterwares ????
 
-//   return forward(operation);
-// });
+// const logoutLink = onError(({ networkError }) => {
+//   if (networkError.statusCode === 401) logout();
+// })
 
-// TODO replace tokens after refresh ???
-
-const afterwareLink = new ApolloLink((operation, forward) => {
-  return forward(operation).map(response => {
-
-    const context = operation.getContext();
-
-    const { response: { headers } } = context;
+const afterwareLink = new ApolloLink((operation, forward) =>
+  forward(operation).map(response => {
+    const { response: { headers } } = operation.getContext();
 
     if (headers) {
       const token = headers.get('x-token');
@@ -101,8 +89,8 @@ const afterwareLink = new ApolloLink((operation, forward) => {
       }
     }
     return response;
-  });
-});
+  })
+);
 
 // // use with apollo-client
 // const link = afterwareLink.concat(httpLink);

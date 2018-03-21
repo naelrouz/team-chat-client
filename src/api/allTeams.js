@@ -1,19 +1,19 @@
-import apolloClient from "../apollo/apollo-client";
-import ALL_TEAMS from "../graphql/queries/AllTeams.gql";
+import apolloClient from '../apollo/apollo-client';
+import ALL_TEAMS from '../graphql/queries/ALL_TEAMS.gql';
 
 // import vueStore from "../store";
 
-export default ({commit}) => {
+export default ({ commit }) => {
   apolloClient
     .query({
       query: ALL_TEAMS
     })
-    .then(({data: {allTeams}}) => {
+    .then(({ data: { allTeams } }) => {
       // const {  } = data;
-      console.log("actions.allTeams.result", allTeams);
-      commit("SET_TEAMS", allTeams);
+      console.log('actions.allTeams.result', allTeams);
+      commit('SET_TEAMS', allTeams);
     });
-}
+};
 
 // apolloClient
 //   .query({

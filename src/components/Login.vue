@@ -84,6 +84,7 @@ export default {
 
           if (status) {
             // if all ok
+            this.$store.dispatch('firstLoad');
             this.$f7router.navigate('/');
           } else {
             // if something is wrong with server-side validation

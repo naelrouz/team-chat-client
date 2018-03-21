@@ -1,14 +1,14 @@
-import { allTeams } from "../../api/";
+import { allTeams } from '../../api/';
 
 const state = {
   teams: [],
-  selectedTeam: {}
+  selectedTeam: { name: 'Select team', id: 0 }
 };
 
 const getters = {
   teams: ({ teams }) => teams,
   selectedTeamName: ({ selectedTeam }) => selectedTeam.name,
-  selectedTeamChannels: ({ selectedTeam }) => selectedTeam.channels,
+  selectedTeamChannels: ({ selectedTeam }) => selectedTeam.channels
 };
 
 const mutations = {
@@ -19,10 +19,19 @@ const mutations = {
     state.selectedTeam = state.teams.filter(el => el.id === id)[0];
   }
 };
+
 const actions = {
   allTeams({ commit }) {
-    console.log("actions.allTeams");
+    console.log('actions.allTeams');
     allTeams({ commit });
+  },
+
+  // TODO ?????
+
+  afterCreateTeam({ commit }, id) {
+    console.log('actions.createTeam');
+    createTeam({ commit });
+    this.$store.commit('SET_SELECTED_TEAM', id);
   }
 };
 
