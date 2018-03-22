@@ -77,14 +77,14 @@ const afterwareLink = new ApolloLink((operation, forward) =>
       if (token) {
         console.log('afterwareLink.token:', token);
 
-        store.commit('SET_TOKEN', token);
+        // store.commit('SET_TOKEN', token);
         localStorage.setItem('token', token);
       }
 
       if (refreshToken) {
         console.log('afterwareLink.refreshToken:', refreshToken);
 
-        store.commit('SET_REFRESH_TOKEN', refreshToken);
+        // store.commit('SET_REFRESH_TOKEN', refreshToken);
         localStorage.setItem('refreshToken', refreshToken);
       }
     }

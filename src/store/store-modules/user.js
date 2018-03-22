@@ -1,12 +1,12 @@
-import decode from "jwt-decode";
-import gql from "graphql-tag";
+import decode from 'jwt-decode';
+import gql from 'graphql-tag';
 
-import apolloClient from "../../apollo/apollo-client";
+import apolloClient from '../../apollo/apollo-client';
 
 const state = {
   allUsersList: [],
-  token: "",
-  refreshToken: ""
+  token: localStorage.getItem('token'),
+  refreshToken: localStorage.getItem('refreshToken')
 };
 
 const getters = {
@@ -16,12 +16,14 @@ const getters = {
       // eslint-disable-next-line prefer-destructuring
       return username;
     } catch (err) {
-      return false
+      return false;
     }
   },
   allUsersList: ({ allUsersList }) => allUsersList,
   token: ({ token }) => token,
   refreshToken: ({ refreshToken }) => refreshToken,
+  // token: () => localStorage.getItem('token'),
+  // refreshToken: () => localStorage.getItem('refreshToken'),
   getTokens: ({ token, refreshToken }) => ({ token, refreshToken })
 };
 
@@ -56,7 +58,7 @@ const actions = {
       .then(({ data: { allUsers } }) => {
         // const {  } = data;
         // console.log('actions.allUsers.result', allUsers);
-        commit("SET_USERS_LIST", allUsers);
+        commit('SET_USERS_LIST', allUsers);
       });
   }
 };
