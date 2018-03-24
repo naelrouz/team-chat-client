@@ -5,6 +5,7 @@ mutation($name: String!) {
       id
       name
       channels {
+        id
         name
       }
     }

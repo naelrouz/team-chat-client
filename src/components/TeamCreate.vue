@@ -3,7 +3,7 @@
     f7-navbar(title='Back', back-link='Back')
     f7-block-title Team create
 
-    f7-list.team_create__form(form='')
+    f7-list#team_create__form(form='')
       f7-list-item
         f7-label Team name
         f7-input(
@@ -63,9 +63,7 @@ export default {
   methods: {
     async onSubmit() {
       // const $$ = this.$$;
-      const teamCreateFormVH = new ValidationHelper(this, '.team_create__form');
-
-      console.log('onSubmit', app);
+      const teamCreateFormVH = new ValidationHelper(this, '#team_create__form');
 
       const clientValidateStatus = teamCreateFormVH.validation();
 
@@ -76,30 +74,29 @@ export default {
           name: this.name
         };
 
-        // try {
-        const {
-          data: { createTeam: { status, errors, team } }
-        } = await createTeam(newTeam);
+        try {
+          const {
+            data: { createTeam: { status, errors, team } }
+          } = await createTeam(newTeam);
 
-        if (status) {
-          console.log('team:', team);
+          if (status) {
+            console.log('team:', team);
 
-          // this.$store.commit('ADD_NEW_TEAM', team);
-          this.$f7router.navigate('/');
-        } else {
-          // if something is wrong with server-side validation
-          console.log('createTeam.status: ', status);
-          // console.log('registerResponse.errors: ', errors);
+            // this.$store.commit('ADD_NEW_TEAM', team);
+            this.$f7router.navigate('/');
+          } else {
+            // if something is wrong with server-side validation
+            console.log('createTeam.status: ', status);
 
-          teamCreateFormVH.setAllMessages(errors);
+            teamCreateFormVH.setAllMessages(errors);
+          }
+        } catch (err) {
+          console.log('createTeam.err: ', err);
+          if (err.toString() === 'Error: GraphQL error: Not authenticated') {
+            console.log('GOTO: login');
+            this.$f7router.navigate('/login/');
+          }
         }
-        // } catch (err) {
-        //   console.log('createTeam.err: ', err);
-        //   if (err.toString() === 'Error: GraphQL error: Not authenticated') {
-        //     console.log('GOTO: login');
-        //     this.$f7router.navigate('/login/');
-        //   }
-        // }
       }
 
       // TODO
@@ -110,10 +107,10 @@ export default {
     }
   },
   beforeCreate() {
-    if (!isAuth()) {
-      console.log('GOTO: login');
-      this.$f7router.navigate('/login/');
-    }
+    // if (!isAuth()) {
+    //   console.log('GOTO: login');
+    //   this.$f7router.navigate('/login/');
+    // }
   }
 };
 </script>

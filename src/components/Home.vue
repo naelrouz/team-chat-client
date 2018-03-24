@@ -7,14 +7,17 @@
     //- f7-block(strong='')
     //-   p Here is your blank Framework7 app. Let's see what we have here.
 
-    f7-block-title Users
-    f7-list
-      f7-list-item(
-      v-for='(user, i) in allUsersList',
-      :key='user.id',
-      link= `/user/1`,
-      :title='user.username'
-      )
+    div.users_list
+      f7-block-title.users_list__title Users
+      f7-list
+        f7-list-item(
+        v-for='(user, i) in allUsersList',
+        :key='user.id',
+        link= `/user/1`,
+        :title='user.username'
+        )
+
+
     f7-block-title Navigation
 
 

@@ -21,7 +21,9 @@ export default {
       teams: 'teams'
     })
   },
-  mounted() {},
+  mounted() {
+    this.$store.dispatch('allTeams');
+  },
   methods: {
     onClick(id) {
       console.log('id: ', id);

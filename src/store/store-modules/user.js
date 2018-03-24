@@ -4,15 +4,15 @@ import gql from 'graphql-tag';
 import apolloClient from '../../apollo/apollo-client';
 
 const state = {
-  allUsersList: [],
-  token: localStorage.getItem('token'),
-  refreshToken: localStorage.getItem('refreshToken')
+  allUsersList: []
+  // token: localStorage.getItem('token'),
+  // refreshToken: localStorage.getItem('refreshToken')
 };
 
 const getters = {
-  username: ({ token }) => {
+  username: () => {
     try {
-      const { user: { username } } = decode(token);
+      const { user: { username } } = decode(localStorage.getItem('token'));
       // eslint-disable-next-line prefer-destructuring
       return username;
     } catch (err) {
@@ -20,11 +20,17 @@ const getters = {
     }
   },
   allUsersList: ({ allUsersList }) => allUsersList,
-  token: ({ token }) => token,
-  refreshToken: ({ refreshToken }) => refreshToken,
-  // token: () => localStorage.getItem('token'),
-  // refreshToken: () => localStorage.getItem('refreshToken'),
-  getTokens: ({ token, refreshToken }) => ({ token, refreshToken })
+  // v1
+  // token: ({ token }) => token,
+  // refreshToken: ({ refreshToken }) => refreshToken,
+  // getTokens: ({ token, refreshToken }) => ({ token, refreshToken })
+  // v2
+  token: () => localStorage.getItem('token'),
+  refreshToken: () => localStorage.getItem('refreshToken'),
+  getTokens: () => ({
+    token: localStorage.getItem('token'),
+    refreshToken: localStorage.getItem('refreshToken')
+  })
 };
 
 const mutations = {
@@ -32,10 +38,12 @@ const mutations = {
     state.allUsersList = allUsersList;
   },
   SET_TOKEN(state, token) {
-    state.token = token;
+    // state.token = token;
+    localStorage.setItem('token', token);
   },
   SET_REFRESH_TOKEN(state, refreshToken) {
-    state.refreshToken = refreshToken;
+    // state.refreshToken = refreshToken;
+    localStorage.setItem('refreshToken', refreshToken);
   }
   // SET_REGISTER_RESPONSE(state, registerResponse) {
   //   state.registerResponse = registerResponse;

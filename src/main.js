@@ -62,10 +62,10 @@ const FitLead = new Vue({
     // root: '#app',
     // animateNavBackIcon: true,
     swipePanel: 'left',
-    view: {
-      // main: true,
-      // pushState: true
-    },
+    // view: {
+    //   main: true,
+    //   pushState: true
+    // },
     // App routes
     routes
   },

@@ -34,9 +34,11 @@ class ValidationHelper {
     errors.forEach(err => {
       const { path, message } = err;
 
-      // console.log('setAllMessages.errors: ', `${path}: ${message}`);
+      console.log('setAllMessages.error: ', `${path}: ${message}`);
 
-      this.setMessage(`input[name="${path}"]`, message);
+      const field = this.form.find(`input[name="${path}"]`);
+
+      this.setMessage(field, message);
     });
   }
 

@@ -60,7 +60,7 @@ const authMiddleware = new ApolloLink((operation, forward) => {
   return forward(operation);
 });
 
-// TODO concat afterwares ????
+// TODO logout
 
 // const logoutLink = onError(({ networkError }) => {
 //   if (networkError.statusCode === 401) logout();
@@ -75,14 +75,14 @@ const afterwareLink = new ApolloLink((operation, forward) =>
       const refreshToken = headers.get('x-refresh-token');
 
       if (token) {
-        console.log('afterwareLink.token:', token);
+        // console.log('afterwareLink.token:', token);
 
         // store.commit('SET_TOKEN', token);
         localStorage.setItem('token', token);
       }
 
       if (refreshToken) {
-        console.log('afterwareLink.refreshToken:', refreshToken);
+        // console.log('afterwareLink.refreshToken:', refreshToken);
 
         // store.commit('SET_REFRESH_TOKEN', refreshToken);
         localStorage.setItem('refreshToken', refreshToken);

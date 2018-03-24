@@ -3,7 +3,9 @@
     id
     name
     channels {
+      id
       name
+      teamId
     }
   }
 }

@@ -3,7 +3,7 @@
 import apolloClient from '../apollo/apollo-client';
 import LOGIN from '../graphql/mutations/Login.gql';
 
-import vueStore from '../store';
+import store from '../store';
 
 export default user => {
   const { email, password } = user;
@@ -13,15 +13,14 @@ export default user => {
       email,
       password
     },
-    update: (store, { data: { login } }) => {
+    update: (proxy, { data: { login } }) => {
       console.log('login: ', login);
       const { token, refreshToken } = login;
 
-      vueStore.commit('SET_TOKEN', token);
-      vueStore.commit('SET_REFRESH_TOKEN', refreshToken);
+      store.commit('SET_TOKEN', token);
+      store.commit('SET_REFRESH_TOKEN', refreshToken);
 
-      // localStorage.setItem('token', token);
-      // localStorage.setItem('refreshToken', refreshToken);
+      //
 
       // // Read the data from our cache for this query.
       // const data = store.readQuery({ query: TAGS_QUERY });

@@ -11,17 +11,17 @@
       f7-view(url='/panel-right/')
     //- Main View
     f7-views
-      f7-view#main-view(url='/', navbar-through='', :dynamic-navbar='true', main='')
+      f7-view#main-view(url='/', push-state navbar-through='', :dynamic-navbar='true', main='')
 
     //- Popup
-    //- f7-popup#popup
-    //-   f7-view
-    //-     f7-page
-    //-       f7-navbar(title='Popup')
-    //-         f7-nav-right
-    //-           f7-link(popup-close='') Close
-    //-       f7-block
-    //-         | Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque, architecto. Cupiditate laudantium rem nesciunt numquam, ipsam. Voluptates omnis, a inventore atque ratione aliquam. Omnis iusto nemo quos ullam obcaecati, quod.
+    f7-popup#popup
+      f7-view
+        f7-page
+          f7-navbar(title='Popup')
+            f7-nav-right
+              f7-link(popup-close='') Close
+          f7-block
+            | Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque, architecto. Cupiditate laudantium rem nesciunt numquam, ipsam. Voluptates omnis, a inventore atque ratione aliquam. Omnis iusto nemo quos ullam obcaecati, quod.
 
     //- Login Screen
     //- f7-login-screen#login-screen
@@ -48,12 +48,12 @@ import { f7Statusbar, f7Panel, f7View } from 'framework7-vue';
 
 export default {
   computed: {
-    token() {
-      return this.$store.getters.token;
-    }
+    // token() {
+    //   return this.$store.getters.token;
+    // }
   },
   mounted() {
-    console.log('token: ', this.token);
+    // console.log('token: ', this.token);
   },
   components: {
     f7Statusbar,

@@ -1,0 +1,14 @@
+mutation($name: String!, $teamId: Int!) {
+  createChannel(name: $name, teamId: $teamId) {
+    status
+    channel {
+      id
+      name
+      teamId
+    }
+    errors {
+      path
+      message
+    }
+  }
+}

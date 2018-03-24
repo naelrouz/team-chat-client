@@ -10,22 +10,22 @@ const state = {
 
 const getters = {
   teams: ({ teams }) => teams,
+  selectedTeamId: ({ selectedTeam }) => selectedTeam.id,
   selectedTeamName: ({ selectedTeam }) => selectedTeam.name,
   selectedTeamChannels: ({ selectedTeam }) => selectedTeam.channels
 };
 
 const mutations = {
   SET_TEAMS(state, allTeams) {
-    state.teams = allTeams.map(team =>
-      _.pick(team, ['id', 'name', 'channels', '__typename'])
-    );
+    state.teams = allTeams;
   },
   SET_SELECTED_TEAM(state, id) {
     state.selectedTeam = state.teams.filter(el => el.id === id)[0];
   },
-  ADD_NEW_TEAM(state, team) {
-    state.teams.push({ name: 'tt', id: 343242 });
-  },
+  // DELETE
+  // ADD_NEW_TEAM(state, team) {
+  //   state.teams.push({ name: 'tt', id: 343242 });
+  // },
   addCustomer(state, customer) {
     // mutate state
     state.teams.push(customer);

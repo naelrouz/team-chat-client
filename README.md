@@ -77,3 +77,9 @@ npm run build
 ## Apollo 2.0 Migration
 
 https://github.com/apollographql/apollo-client/blob/master/docs/source/2.0-migration.md
+
+## chromedriver
+
+java -jar selenium-server-standalone-[u-version].jar -Dwebdriver.chrome.driver=.\chromedriver.exe
+
+java -jar selenium-server-standalone-6.13.0.jar -Dwebdriver.chrome.driver=chromedriver
