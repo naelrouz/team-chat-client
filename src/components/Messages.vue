@@ -34,7 +34,16 @@
 import Navbar from './navbar/Navbar';
 
 export default {
-  props: ['teamId', 'channelId'],
+  props: {
+    teamId: {
+      type: String,
+      required: true
+    },
+    channelId: {
+      type: String,
+      required: true
+    }
+  },
   data() {
     return {
       attachments: [],
@@ -141,7 +150,7 @@ export default {
   methods: {
     onClick() {
       // this.$store.commit('SET_SELECTED_TEAM', this.teamId);
-      this.$store.commit('SET_CURRENT_TEAM', 189);
+      this.$store.commit('SET_CURRENT_TEAM_ID', 189);
     },
     // Messages rules for correct styling
     isFirstMessage(message, index) {
@@ -276,12 +285,12 @@ export default {
   },
   mounted() {
     console.log('this.teamId:', this.teamId);
-    // this.$store.commit('SET_SELECTED_TEAM', this.teamId);
+    // this.$store.commit('SET_CURRENT_TEAM_ID', this.teamId);
 
-    // this.$store.dispatch('loadChannelMessages', {
-    //   teamId: this.teamId,
-    //   channelId: this.channelId
-    // });
+    this.$store.dispatch('loadChannelMessages', {
+      teamId: this.teamId,
+      channelId: this.channelId
+    });
   }
 };
 </script>

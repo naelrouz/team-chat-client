@@ -19,6 +19,6 @@ export default new Vuex.Store({
     user,
     teams,
     messages
-  },
-  plugins: [createPersistedState()]
+  }
+  // plugins: [createPersistedState()]
 });

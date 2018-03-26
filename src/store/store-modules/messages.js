@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import { allTeams } from '../../api/';
+import { channelMessages } from '../../api/';
 
 const state = {
   messages: []
@@ -17,18 +17,9 @@ const mutations = {
 };
 
 const actions = {
-  async loadChannelMessages({ commit, getters }, { teamId, channelId }) {
-    console.log('actions.loadChannelMessages.channel:', { teamId, channelId });
+  async loadChannelMessages({ commit }, channel) {
     // load all Teams and set current Teams and Channel
-    // await allTeams({ commit });
-    // await commit('SET_CURRENT_TEAM', teamId);
-
-    // const teams = await getters.teams;
-    // console.log('getters.teams:', teams);
-
-    allTeams({ commit }).then(() => {
-      commit('SET_CURRENT_TEAM', teamId);
-    });
+    channelMessages({ commit, channel });
   }
 };
 

@@ -1,23 +1,13 @@
 <template lang="pug">
-  f7-page
+  f7-page(v-if="teams")
     f7-navbar(title='Left Panel')
     f7-block(strong='')
         h2 / {{ username }} /
     f7-block-title Current Team
     f7-list
         f7-list-item(link='/teams/', :title='currentTeamName')
-
-
-    f7-block-title.team_channels_title
-      | Team Channels      
-      f7-link.team_channels__add_channel_modal_open(popup-open='#add_channel_modal')
-        f7-icon.team_channels__add_icon(f7="add_round")
-        //- f7-icon.team_channels__add_icon(material="add")
-    f7-list
-      f7-list-item(v-for='(channel, index) in currentTeamChannels', :link="`/messages/${channel.teamId}/${channel.id}`", :title='channel.name', :key="channel.id", view='#main-view', panel-close='')
-
-
-
+   
+    team-channels
 
     f7-block-title Load page in main view
     f7-list
@@ -31,6 +21,8 @@
 </template>
 <script>
 // import components
+import TeamChannels from './TeamChannels';
+
 import ChannelCreateModal from './ChannelCreateModal';
 
 import store from '../../store/index';
@@ -39,6 +31,7 @@ export default {
   computed: {
     ...mapGetters({
       name: 'name',
+      teams: 'teams',
       currentTeamName: 'currentTeamName',
       currentTeamChannels: 'currentTeamChannels',
       username: 'username'
@@ -48,7 +41,8 @@ export default {
     onClickAddChannelModal() {}
   },
   components: {
-    ChannelCreateModal
+    ChannelCreateModal,
+    TeamChannels
   }
 };
 </script>

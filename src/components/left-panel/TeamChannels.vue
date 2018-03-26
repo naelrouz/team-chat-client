@@ -7,7 +7,7 @@
                 //- f7-icon.team_channels__add_icon(material="add")
         f7-list
             f7-list-item(
-                v-for='(channel, index) in teams[0].channels', 
+                v-for='(channel, index) in currentTeamChannels', 
                 :link="`/messages/${channel.teamId}/${channel.id}`", 
                 :title='channel.name', 
                 :key="channel.id", 
@@ -22,8 +22,7 @@ import { mapGetters } from 'vuex';
 export default {
   computed: {
     ...mapGetters({
-      teams: 'teams'
-      // currentTeamChannels: 'currentTeamChannels'
+      currentTeamChannels: 'currentTeamChannels'
     })
   },
   methods: {}
