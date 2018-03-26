@@ -4,47 +4,55 @@ import { allTeams } from '../../api/';
 
 const state = {
   teams: [],
-  selectedTeam: { name: 'Select team', id: 0 },
-  customers: [{ id: '1', name: 'user 1' }]
+  // currentTeam: { name: 'Select team', id: 0 }
+  currentTeamId: null
 };
 
 const getters = {
   teams: ({ teams }) => teams,
-  selectedTeamId: ({ selectedTeam }) => selectedTeam.id,
-  selectedTeamName: ({ selectedTeam }) => selectedTeam.name,
-  selectedTeamChannels: ({ selectedTeam }) => selectedTeam.channels
+  // currentTeamId: ({ currentTeam }) => currentTeam.id,
+  // currentTeamName: ({ currentTeam }) => currentTeam.name,
+  // currentTeamChannels: ({ currentTeam }) => currentTeam.channels
+  currentTeamId: ({ currentTeamId }) => currentTeamId,
+  //
+  currentTeam: ({ teams, currentTeamId }) =>
+    currentTeamId >= 0
+      ? teams.filter(team => team.id === currentTeamId)[0]
+      : teams[0],
+  currentTeamName: ({ teams, currentTeamId }) =>
+    currentTeamId >= 0
+      ? teams.filter(team => team.id === currentTeamId)[0].name
+      : teams[0].name,
+  currentTeamChannels: ({ teams, currentTeamId }) =>
+    currentTeamId >= 0
+      ? teams.filter(team => team.id === currentTeamId)[0].channels
+      : teams[0].channels
 };
 
 const mutations = {
   SET_TEAMS(state, allTeams) {
     state.teams = allTeams;
   },
-  SET_SELECTED_TEAM(state, id) {
-    state.selectedTeam = state.teams.filter(el => el.id === id)[0];
-  },
-  // DELETE
-  // ADD_NEW_TEAM(state, team) {
-  //   state.teams.push({ name: 'tt', id: 343242 });
+  // async SET_CURRENT_TEAM(state, id) {
+  //   state.currentTeam = await state.teams.filter(el => el.id === id)[0];
   // },
-  addCustomer(state, customer) {
-    // mutate state
-    state.teams.push(customer);
+  SET_CURRENT_TEAM_ID(state, id) {
+    state.currentTeamId = id;
   }
 };
 
 const actions = {
-  allTeams({ commit }) {
+  async allTeams({ commit }) {
     console.log('actions.allTeams');
-    allTeams({ commit });
-  },
+    await allTeams({ commit });
+  }
 
   // TODO ?????
 
-  afterCreateTeam({ commit }, id) {
-    console.log('actions.createTeam');
-    createTeam({ commit });
-    this.$store.commit('SET_SELECTED_TEAM', id);
-  }
+  // afterCreateTeam({ commit }, id) {
+  //   console.log('actions.createTeam');
+  //   createTeam({ commit });
+  // }
 };
 
 export default {

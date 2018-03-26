@@ -21,13 +21,13 @@ export default {
       teams: 'teams'
     })
   },
-  mounted() {
+  created() {
     this.$store.dispatch('allTeams');
   },
   methods: {
     onClick(id) {
       console.log('id: ', id);
-      this.$store.commit('SET_SELECTED_TEAM', id);
+      this.$store.commit('SET_CURRENT_TEAM_ID', id);
       this.$f7router.navigate('/panel-left/');
     }
   }

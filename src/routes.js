@@ -1,8 +1,8 @@
 // Pages
 import Home from './components/Home.vue';
-import About from "./components/About.vue";
-import Form from "./components/Form.vue";
-import DynamicRoute from "./components/DynamicRoute.vue";
+import About from './components/About.vue';
+import Form from './components/Form.vue';
+import DynamicRoute from './components/DynamicRoute.vue';
 import NotFound from './components/NotFound.vue';
 import Registration from './components/Registration.vue';
 import Login from './components/Login.vue';
@@ -13,10 +13,7 @@ import Messages from './components/Messages.vue';
 import LeftPanel from './components/left-panel/LeftPanel.vue';
 import Teams from './components/left-panel/Teams.vue';
 
-
 import RightPanel from './components/RightPanel.vue';
-
-
 
 export default [
   {
@@ -65,19 +62,19 @@ export default [
   },
 
   {
-    path: '/messages/',
+    path: '/messages/:teamId/:channelId',
     component: Messages
   },
   {
-    path: "/about/",
+    path: '/about/',
     component: About
   },
   {
-    path: "/form/",
+    path: '/form/',
     component: Form
   },
   {
-    path: "/dynamic-route/blog/:blogId/post/:postId/",
+    path: '/dynamic-route/blog/:blogId/post/:postId/',
     component: DynamicRoute
   },
   {

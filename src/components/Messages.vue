@@ -23,6 +23,8 @@
     // Messages
     f7-messages(ref='messages')
       f7-messages-title
+        h2 teamId: {{teamId}} / channelId: {{channelId}}
+        button(@click="onClick()") set
         b Sunday, Feb 9,
         |  12:58
       f7-message(v-for='(message, index) in messagesData', :key='index', :type='message.type', :text='message.text', :image='message.image', :name='message.name', :avatar='message.avatar', :first='isFirstMessage(message, index)', :last='isLastMessage(message, index)', :tail='isTailMessage(message, index)')
@@ -32,6 +34,7 @@
 import Navbar from './navbar/Navbar';
 
 export default {
+  props: ['teamId', 'channelId'],
   data() {
     return {
       attachments: [],
@@ -136,6 +139,10 @@ export default {
     }
   },
   methods: {
+    onClick() {
+      // this.$store.commit('SET_SELECTED_TEAM', this.teamId);
+      this.$store.commit('SET_CURRENT_TEAM', 189);
+    },
     // Messages rules for correct styling
     isFirstMessage(message, index) {
       const self = this;
@@ -266,6 +273,15 @@ export default {
   },
   components: {
     Navbar
+  },
+  mounted() {
+    console.log('this.teamId:', this.teamId);
+    // this.$store.commit('SET_SELECTED_TEAM', this.teamId);
+
+    // this.$store.dispatch('loadChannelMessages', {
+    //   teamId: this.teamId,
+    //   channelId: this.channelId
+    // });
   }
 };
 </script>

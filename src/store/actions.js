@@ -1,6 +1,12 @@
+import { allTeams } from '../api';
+
 export default {
-  firstLoad({ dispatch }) {
-    dispatch('allUsers');
-    dispatch('allTeams');
+  firstLoad({ commit, dispatch }) {
+    // dispatch('allUsers');
+    // dispatch('allTeams');
+
+    allTeams({ commit }).then(data => {
+      console.log('data: ', data);
+    });
   }
 };

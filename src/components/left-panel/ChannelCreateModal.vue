@@ -54,7 +54,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      selectedTeamId: 'selectedTeamId'
+      currentTeamId: 'currentTeamId'
     })
   },
   mounted() {},
@@ -75,7 +75,7 @@ export default {
       if (clientValidateStatus) {
         const newChannel = {
           name: this.name,
-          teamId: this.selectedTeamId
+          teamId: this.currentTeamId
         };
 
         try {

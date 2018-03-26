@@ -5,7 +5,7 @@
         h2 / {{ username }} /
     f7-block-title Current Team
     f7-list
-        f7-list-item(link='/teams/', :title='selectedTeamName')
+        f7-list-item(link='/teams/', :title='currentTeamName')
 
 
     f7-block-title.team_channels_title
@@ -14,7 +14,7 @@
         f7-icon.team_channels__add_icon(f7="add_round")
         //- f7-icon.team_channels__add_icon(material="add")
     f7-list
-      f7-list-item(v-for='(channel, index) in selectedTeamChannels', :link="`/messages/${channel.teamId}/${channel.id}`", :title='channel.name', :key="channel.id", view='#main-view', panel-close='')
+      f7-list-item(v-for='(channel, index) in currentTeamChannels', :link="`/messages/${channel.teamId}/${channel.id}`", :title='channel.name', :key="channel.id", view='#main-view', panel-close='')
 
 
 
@@ -39,8 +39,8 @@ export default {
   computed: {
     ...mapGetters({
       name: 'name',
-      selectedTeamName: 'selectedTeamName',
-      selectedTeamChannels: 'selectedTeamChannels',
+      currentTeamName: 'currentTeamName',
+      currentTeamChannels: 'currentTeamChannels',
       username: 'username'
     })
   },

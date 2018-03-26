@@ -8,6 +8,7 @@ import actions from './actions';
 
 import user from './store-modules/user';
 import teams from './store-modules/teams';
+import messages from './store-modules/messages';
 
 Vue.use(Vuex);
 
@@ -16,7 +17,8 @@ export default new Vuex.Store({
   actions,
   modules: {
     user,
-    teams
+    teams,
+    messages
   },
   plugins: [createPersistedState()]
 });

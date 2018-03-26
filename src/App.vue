@@ -47,14 +47,17 @@
 import { f7Statusbar, f7Panel, f7View } from 'framework7-vue';
 
 export default {
+  asyncData({ store }) {
+    // возвращаем Promise из действия
+    // return store.dispatch('fetchItem', route.params.id)
+    return store.dispatch('firstLoad');
+  },
   computed: {
     // token() {
     //   return this.$store.getters.token;
     // }
   },
-  mounted() {
-    // console.log('token: ', this.token);
-  },
+  mounted() {},
   components: {
     f7Statusbar,
     f7Panel,
