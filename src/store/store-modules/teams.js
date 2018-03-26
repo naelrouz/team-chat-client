@@ -76,8 +76,7 @@ const getters = {
     // return currentTeamChannels;
 
     return currentTeamId >= 0
-      ? teams.filter(team => team.id === parseInt(currentTeamId, 10))[0]
-          .channels
+      ? teams.find(team => team.id === parseInt(currentTeamId, 10)).channels
       : teams[0].channels;
   }
 };
