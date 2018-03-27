@@ -2,7 +2,9 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import createPersistedState from 'vuex-persistedstate';
 
-// import getters from './getters';
+import state from './state';
+import getters from './getters';
+import mutations from './mutations';
 
 import actions from './actions';
 
@@ -13,7 +15,9 @@ import messages from './store-modules/messages';
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-  // getters,
+  state,
+  getters,
+  mutations,
   actions,
   modules: {
     user,

@@ -10,6 +10,7 @@ const state = {
 
 const getters = {
   teams: ({ teams }) => teams,
+  //
   // currentTeamId: ({ currentTeam }) => currentTeam.id,
   // currentTeamName: ({ currentTeam }) => currentTeam.name,
   // currentTeamChannels: ({ currentTeam }) => currentTeam.channels
@@ -21,9 +22,11 @@ const getters = {
     currentTeamId >= 0
       ? teams.filter(team => team.id === currentTeamId)[0]
       : teams[0],
-  currentTeamName: ({ teams, currentTeamId }) => {
+  currentTeamName: async ({ teams, currentTeamId }) => {
     console.log('getters.currentTeamName.currentTeamId: ', currentTeamId);
     console.log('getters.currentTeamName.teams: ', teams);
+
+    await this.a.getters.teams;
 
     try {
       return currentTeamId >= 0
@@ -33,8 +36,11 @@ const getters = {
       console.error('err: ', err);
     }
   },
-  currentTeamChannels: ({ teams, currentTeamId }) => {
+  currentTeamChannels: async ({ teams, currentTeamId }) => {
     console.log('getters.currentTeamChannels.currentTeamId: ', currentTeamId);
+
+    await this.a.getters.teams;
+
     try {
       return currentTeamId >= 0
         ? teams.find(team => team.id === currentTeamId).channels

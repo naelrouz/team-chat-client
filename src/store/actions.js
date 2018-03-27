@@ -1,8 +1,9 @@
 // import { allTeams } from '../api';
 
 export default {
-  firstLoad({ dispatch }) {
-    dispatch('allUsers');
-    dispatch('allTeams');
+  async firstLoad({ dispatch, commit }) {
+    await dispatch('allUsers');
+    await dispatch('allTeams');
+    commit('SET_FIRST_LOAD_STATUS', true);
   }
 };
