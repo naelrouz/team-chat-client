@@ -16,10 +16,18 @@ const getters = {
   //
   //
   //
-  currentTeamId: ({ currentTeamId }) => currentTeamId,
+  currentTeamId: ({ teams, currentTeamId }) => {
+    try {
+      return currentTeamId >= 0 ? currentTeamId : teams[0].id;
+    } catch (err) {
+      if (teams.length) {
+        console.error('err: ', err);
+      }
+    }
+  },
   currentTeam: ({ teams, currentTeamId }) =>
     currentTeamId >= 0
-      ? teams.filter(team => team.id === currentTeamId)[0]
+      ? teams.find(team => team.id === currentTeamId)
       : teams[0],
   currentTeamName: ({ teams, currentTeamId }) => {
     console.log('getters.currentTeamName.currentTeamId: ', currentTeamId);
