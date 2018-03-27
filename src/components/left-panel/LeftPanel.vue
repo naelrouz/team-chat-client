@@ -25,7 +25,7 @@ import TeamChannels from './TeamChannels';
 
 import ChannelCreateModal from './ChannelCreateModal';
 
-import store from '../../store/index';
+// import store from '../../store/index';
 import { mapGetters } from 'vuex';
 export default {
   computed: {

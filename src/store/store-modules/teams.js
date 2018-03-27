@@ -4,7 +4,8 @@ import { allTeams } from '../../api/';
 
 const state = {
   teams: [],
-  currentTeamId: -1
+  currentTeamId: -1,
+  currentChannelId: -1
 };
 
 const getters = {
@@ -24,60 +25,35 @@ const getters = {
     console.log('getters.currentTeamName.currentTeamId: ', currentTeamId);
     console.log('getters.currentTeamName.teams: ', teams);
 
-    // let currentTeamName = [];
-
-    // if (currentTeamId >= 0) {
-    //   currentTeamName = teams.find(el => el.id === parseInt(currentTeamId, 10))
-    //     .name;
-    //   console.log('getters.currentTeamName: ', currentTeamName);
-    //   return currentTeamName;
-    // }
-
-    // currentTeamName = teams[0].name;
-
-    // console.log(
-    //   'getters.currentTeamChannels.currentTeamChannels: ',
-    //   currentTeamName
-    // );
-
-    // return currentTeamName;
-
-    // if (teams.length) {
-    //   return 'Select team';
-    // }
-
-    return currentTeamId >= 0
-      ? teams.find(el => el.id === parseInt(currentTeamId, 10)).name
-      : teams[0].name;
+    try {
+      return currentTeamId >= 0
+        ? teams.find(el => el.id === currentTeamId).name
+        : teams[0].name;
+    } catch (err) {
+      console.error('err: ', err);
+    }
   },
   currentTeamChannels: ({ teams, currentTeamId }) => {
     console.log('getters.currentTeamChannels.currentTeamId: ', currentTeamId);
-
-    // let currentTeamChannels = [];
-
-    // if (currentTeamId >= 0) {
-    //   currentTeamChannels = teams.find(
-    //     el => el.id === parseInt(currentTeamId, 10)
-    //   ).channels;
-    //   console.log(
-    //     'getters.currentTeamChannels.currentTeamChannels: ',
-    //     currentTeamChannels
-    //   );
-    //   return currentTeamChannels;
-    // }
-
-    // currentTeamChannels = teams[0].channels;
-
-    // console.log(
-    //   'getters.currentTeamChannels.currentTeamChannels: ',
-    //   currentTeamChannels
-    // );
-
-    // return currentTeamChannels;
-
-    return currentTeamId >= 0
-      ? teams.find(team => team.id === parseInt(currentTeamId, 10)).channels
-      : teams[0].channels;
+    try {
+      return currentTeamId >= 0
+        ? teams.find(team => team.id === currentTeamId).channels
+        : teams[0].channels;
+    } catch (err) {
+      console.error('err: ', err);
+    }
+  },
+  currentChannelName: ({ teams, currentTeamId, currentChannelId }) => {
+    console.log('getters.currentTeamChannels.currentTeamId: ', currentTeamId);
+    try {
+      return currentTeamId >= 0
+        ? teams
+            .find(team => team.id === currentTeamId)
+            .channels.find(channel => channel.id === currentChannelId).name
+        : teams[0].channels[0].name;
+    } catch (err) {
+      console.error('err: ', err);
+    }
   }
 };
 
@@ -85,20 +61,22 @@ const mutations = {
   SET_TEAMS(state, allTeams) {
     state.teams = allTeams;
   },
-  // async SET_CURRENT_TEAM(state, id) {
-  //   state.currentTeam = await state.teams.filter(el => el.id === id)[0];
-  // },
-  SET_CURRENT_TEAM_ID(state, id) {
-    console.log('SET_CURRENT_TEAM_ID.id:', id);
+  SET_CURRENT_TEAM_ID(state, teamId) {
+    console.log('SET_CURRENT_TEAM_ID.id:', teamId);
 
-    state.currentTeamId = id;
+    state.currentTeamId = teamId;
+  },
+  SET_CURRENT_CHANNEL_ID(state, channelId) {
+    console.log('SET_CURRENT_TEAM_ID.id:', channelId);
+
+    state.currentChannelId = channelId;
   }
 };
 
 const actions = {
-  async allTeams({ commit }) {
+  allTeams({ commit }) {
     console.log('actions.allTeams');
-    await allTeams({ commit });
+    allTeams({ commit });
   }
 };
 

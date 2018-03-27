@@ -1,7 +1,7 @@
-import { allTeams } from '../api';
+// import { allTeams } from '../api';
 
 export default {
-  firstLoad({ commit, dispatch }) {
+  firstLoad({ dispatch }) {
     dispatch('allUsers');
     dispatch('allTeams');
   }

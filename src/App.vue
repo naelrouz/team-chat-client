@@ -63,6 +63,8 @@ export default {
     f7View
   },
   created() {
+    console.log('App.created');
+
     this.$store.dispatch('firstLoad');
   }
 };

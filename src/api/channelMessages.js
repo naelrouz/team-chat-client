@@ -12,7 +12,7 @@ export default ({ commit, channel }) => {
       console.log('actions.channelMessages.channel:', channel);
 
       commit('SET_CURRENT_TEAM_ID', channel.teamId);
-      // commit('SET_CURRENT_CHANNEL_ID', channel.id);
+      commit('SET_CURRENT_CHANNEL_ID', channel.channelId);
     });
 };
 
