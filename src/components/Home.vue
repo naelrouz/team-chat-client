@@ -13,8 +13,7 @@
         f7-list-item(
         v-for='(user, i) in allUsersList',
         :key='user.id',
-        link= `/user/1`,
-        :title='user.username'
+        :title='user.email'
         )
 
 

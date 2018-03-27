@@ -27,7 +27,7 @@ export default newTeam => {
         await proxy.writeQuery({ query: ALL_TEAMS, data });
 
         await store.dispatch('allTeams');
-        store.commit('SET_SELECTED_TEAM', team.id);
+        store.commit('SET_CURRENT_TEAM_ID', team.id);
       }
     }
   });

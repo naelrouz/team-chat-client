@@ -42,7 +42,7 @@ export default newChannel =>
         // // // Write our data back to the cache.
         await proxy.writeQuery({ query: ALL_TEAMS, data });
         await store.dispatch('allTeams');
-        store.commit('SET_SELECTED_TEAM', channel.teamId);
+        store.commit('SET_CURRENT_CHANNEL_ID', channel.id);
       }
     }
   });

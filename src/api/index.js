@@ -4,6 +4,7 @@ import createTeam from './createTeam';
 import allTeams from './allTeams';
 import createChannel from './createChannel';
 import channelMessages from './channelMessages';
+import addTeamMember from './addTeamMember';
 
 export {
   register,
@@ -11,5 +12,6 @@ export {
   createTeam,
   allTeams,
   createChannel,
-  channelMessages
+  channelMessages,
+  addTeamMember
 };

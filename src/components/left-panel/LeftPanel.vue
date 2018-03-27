@@ -8,22 +8,25 @@
         f7-list-item(link='/teams/', :title='currentTeamName')
    
     team-channels
+    members
 
     f7-block-title Load page in main view
     f7-list
       f7-list-item(link='/about/', title='About', view='#main-view', panel-close='')
       f7-list-item(link='/form/', title='Form', view='#main-view', panel-close='')
 
-    //- Popup
+    //- Popups
     channel-create-modal
+    add-team-member-modal
 
 
 </template>
 <script>
 // import components
 import TeamChannels from './TeamChannels';
-
 import ChannelCreateModal from './ChannelCreateModal';
+import Members from './Members';
+import AddTeamMemberModal from './AddTeamMemberModal';
 
 // import store from '../../store/index';
 import { mapGetters } from 'vuex';
@@ -41,6 +44,8 @@ export default {
     onClickAddChannelModal() {}
   },
   components: {
+    Members,
+    AddTeamMemberModal,
     ChannelCreateModal,
     TeamChannels
   }
