@@ -56,7 +56,7 @@ const getters = {
             .channels.find(channel => channel.id === currentChannelId).name
         : teams[0].channels[0].name;
     } catch (err) {
-      if (teams.length) {
+      if (teams.length && currentChannelId) {
         console.error('err: ', err);
       }
     }
