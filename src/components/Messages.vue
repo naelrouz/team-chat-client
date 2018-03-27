@@ -1,6 +1,6 @@
 <template lang="pug">
   f7-page
-    navbar
+    navbar()
     // Messagebar
     f7-messagebar(
       :placeholder='placeholder',
@@ -31,6 +31,8 @@
         img(slot="image", v-if="message.attachments", v-for='(img, index) in message.attachments', :src="img")
 </template>
 <script>
+import { mapGetters } from 'vuex';
+
 import Navbar from './navbar/Navbar';
 
 export default {
@@ -139,6 +141,10 @@ export default {
     };
   },
   computed: {
+    ...mapGetters({
+      username: 'username',
+      currentTeamName: 'currentTeamName'
+    }),
     attachmentsVisible() {
       return this.attachments.length > 0;
     },
@@ -288,8 +294,8 @@ export default {
     // this.$store.commit('SET_CURRENT_TEAM_ID', this.teamId);
 
     this.$store.dispatch('loadChannelMessages', {
-      teamId: this.teamId,
-      channelId: this.channelId
+      teamId: parseInt(this.teamId, 10),
+      channelId: parseInt(this.channelId, 10)
     });
   }
 };
