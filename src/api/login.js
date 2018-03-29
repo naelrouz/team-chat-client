@@ -1,7 +1,7 @@
 // import gql from "graphql-tag";
 
-import apolloClient from '../apollo/apollo-client';
-import LOGIN from '../graphql/mutations/Login.gql';
+import apolloClient from './apollo/apollo-client';
+import LOGIN from './graphql/mutations/Login.gql';
 
 import store from '../store';
 

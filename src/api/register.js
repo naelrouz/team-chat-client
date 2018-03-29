@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-import apolloClient from '../apollo/apollo-client';
+import apolloClient from './apollo/apollo-client';
 
 export default user =>
   apolloClient.mutate({

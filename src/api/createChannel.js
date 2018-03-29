@@ -2,9 +2,9 @@
 
 import _ from 'lodash';
 
-import apolloClient from '../apollo/apollo-client';
-import CREATE_CHANNEL from '../graphql/mutations/CREATE_CHANNEL.gql';
-import ALL_TEAMS from '../graphql/queries/ALL_TEAMS.gql';
+import apolloClient from './apollo/apollo-client';
+import CREATE_CHANNEL from './graphql/mutations/CREATE_CHANNEL.gql';
+import ALL_TEAMS from './graphql/queries/ALL_TEAMS.gql';
 
 import store from '../store';
 

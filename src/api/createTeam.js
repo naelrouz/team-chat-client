@@ -1,8 +1,8 @@
 // import gql from "graphql-tag";
 
-import apolloClient from '../apollo/apollo-client';
-import CREATE_TEAM from '../graphql/mutations/CREATE_TEAM.gql';
-import ALL_TEAMS from '../graphql/queries/ALL_TEAMS.gql';
+import apolloClient from './apollo/apollo-client';
+import CREATE_TEAM from './graphql/mutations/CREATE_TEAM.gql';
+import ALL_TEAMS from './graphql/queries/ALL_TEAMS.gql';
 
 import store from '../store';
 

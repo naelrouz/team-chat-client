@@ -1,8 +1,9 @@
 <template lang="pug">
   f7-page(v-if="teams")
-    f7-navbar(title='Left Panel')
-    f7-block(strong='')
-        h2 / {{ username }} /
+    f7-navbar(title='')
+      f7-link(href='/', view='#main-view', panel-close='', title="Go to main") 
+        //- f7-icon.team_channels__add_icon(f7="person")
+        | / {{ username }} /
     f7-block-title Current Team
     f7-list
         f7-list-item(link='/teams/', :title='currentTeamName')

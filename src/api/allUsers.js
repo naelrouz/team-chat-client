@@ -1,5 +1,5 @@
-import apolloClient from '../apollo/apollo-client';
-import ALL_USERS from '../graphql/que/a';
+import apolloClient from './apollo/apollo-client';
+import ALL_USERS from './graphql/que/a';
 
 export default () =>
   apolloClient.mutate({

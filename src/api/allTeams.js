@@ -1,5 +1,5 @@
-import apolloClient from '../apollo/apollo-client';
-import ALL_TEAMS from '../graphql/queries/ALL_TEAMS.gql';
+import apolloClient from './apollo/apollo-client';
+import ALL_TEAMS from './graphql/queries/ALL_TEAMS.gql';
 
 // import vueStore from "../store";
 

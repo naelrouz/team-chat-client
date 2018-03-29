@@ -2,8 +2,8 @@
 
 import _ from 'lodash';
 
-import apolloClient from '../apollo/apollo-client';
-import ADD_TEAM_MEMBER from '../graphql/mutations/ADD_TEAM_MEMBER.gql';
+import apolloClient from './apollo/apollo-client';
+import ADD_TEAM_MEMBER from './graphql/mutations/ADD_TEAM_MEMBER.gql';
 
 import store from '../store';
 

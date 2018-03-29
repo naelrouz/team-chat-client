@@ -2,6 +2,7 @@
   allTeams {
     id
     name
+    owner
     channels {
       id
       name

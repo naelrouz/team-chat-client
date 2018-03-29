@@ -8,7 +8,7 @@ import { onError } from 'apollo-link-error';
 
 // import { setContext } from 'apollo-link-context';
 
-import store from '../store';
+import store from '../../store/index';
 
 const httpLink = new HttpLink({
   // You should use an absolute URL here

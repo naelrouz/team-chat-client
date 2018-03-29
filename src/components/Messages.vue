@@ -31,9 +31,9 @@
         img(slot="image", v-if="message.attachments", v-for='(img, index) in message.attachments', :src="img")
 </template>
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters } from "vuex";
 
-import Navbar from './navbar/Navbar';
+import Navbar from "./navbar/Navbar";
 
 export default {
   props: {
@@ -57,89 +57,89 @@ export default {
       sheetVisible: false,
       // Sheet images available
       images: [
-        'https://picsum.photos/300/200?image=0',
-        'https://picsum.photos/300/200?image=1',
-        'https://picsum.photos/300/200?image=2',
-        'https://picsum.photos/300/200?image=3'
+        "https://picsum.photos/300/200?image=0",
+        "https://picsum.photos/300/200?image=1",
+        "https://picsum.photos/300/200?image=2",
+        "https://picsum.photos/300/200?image=3"
       ],
 
       // Initial messages
       messagesData: [
         {
-          type: 'sent',
-          text: 'Hi, Kate'
+          type: "sent",
+          text: "Hi, Kate"
         },
         {
-          type: 'sent',
-          text: 'How are you?'
+          type: "sent",
+          text: "How are you?"
         },
         {
-          name: 'Kate',
-          type: 'received',
-          text: 'Hi, I am good!',
-          avatar: 'http://lorempixel.com/100/100/people/9'
+          name: "Kate",
+          type: "received",
+          text: "Hi, I am good!",
+          avatar: "http://lorempixel.com/100/100/people/9"
         },
         {
-          name: 'Blue Ninja',
-          type: 'received',
-          text: 'Hi there, I am also fine, thanks! And how are you?',
-          avatar: 'http://lorempixel.com/100/100/people/7'
+          name: "Blue Ninja",
+          type: "received",
+          text: "Hi there, I am also fine, thanks! And how are you?",
+          avatar: "http://lorempixel.com/100/100/people/7"
         },
         {
-          type: 'sent',
-          text: 'Hey, Blue Ninja! Glad to see you ;)'
+          type: "sent",
+          text: "Hey, Blue Ninja! Glad to see you ;)"
         },
         {
-          type: 'sent',
-          text: 'Hey, look, cutest kitten ever!'
+          type: "sent",
+          text: "Hey, look, cutest kitten ever!"
         },
         {
-          type: 'sent',
-          image: 'http://lorempixel.com/200/260/cats/4/'
+          type: "sent",
+          image: "http://lorempixel.com/200/260/cats/4/"
         },
         {
-          name: 'Kate',
-          type: 'received',
-          text: 'Nice!',
-          avatar: 'http://lorempixel.com/100/100/people/9'
+          name: "Kate",
+          type: "received",
+          text: "Nice!",
+          avatar: "http://lorempixel.com/100/100/people/9"
         },
         {
-          name: 'Kate',
-          type: 'received',
-          text: 'Like it very much!',
-          avatar: 'http://lorempixel.com/100/100/people/9'
+          name: "Kate",
+          type: "received",
+          text: "Like it very much!",
+          avatar: "http://lorempixel.com/100/100/people/9"
         },
         {
-          name: 'Blue Ninja',
-          type: 'received',
-          text: 'Awesome!',
-          avatar: 'http://lorempixel.com/100/100/people/7'
+          name: "Blue Ninja",
+          type: "received",
+          text: "Awesome!",
+          avatar: "http://lorempixel.com/100/100/people/7"
         }
       ],
       // Dummy data
       people: [
         {
-          name: 'Kate Johnson',
-          avatar: 'http://lorempixel.com/100/100/people/9'
+          name: "Kate Johnson",
+          avatar: "http://lorempixel.com/100/100/people/9"
         },
         {
-          name: 'Blue Ninja',
-          avatar: 'http://lorempixel.com/100/100/people/7'
+          name: "Blue Ninja",
+          avatar: "http://lorempixel.com/100/100/people/7"
         }
       ],
       answers: [
-        'Yes!',
-        'No',
-        'Hm...',
-        'I am not sure',
-        'And what about you?',
-        'May be ;)',
-        'Lorem ipsum dolor sit amet, consectetur',
-        'What?',
-        'Are you sure?',
-        'Of course',
-        'Need to think about it',
-        'Amazing!!!'
+        "Yes!",
+        "No",
+        "Hm...",
+        "I am not sure",
+        "And what about you?",
+        "May be ;)",
+        "Lorem ipsum dolor sit amet, consectetur",
+        "What?",
+        "Are you sure?",
+        "Of course",
+        "Need to think about it",
+        "Amazing!!!"
       ],
       // Response in progress flag
       responseInProgress: false
@@ -155,13 +155,13 @@ export default {
     },
     placeholder() {
       const self = this;
-      return self.attachments.length > 0 ? 'Add comment or Send' : 'Message';
+      return self.attachments.length > 0 ? "Add comment or Send" : "Message";
     }
   },
   methods: {
     onClick() {
       // this.$store.commit('SET_SELECTED_TEAM', this.teamId);
-      this.$store.commit('SET_CURRENT_TEAM_ID', 189);
+      this.$store.commit("SET_CURRENT_TEAM_ID", 189);
     },
     // Messages rules for correct styling
     isFirstMessage(message, index) {
@@ -205,7 +205,7 @@ export default {
 
       const text = self.messagebar
         .getValue()
-        .replace(/\n/g, '<br>')
+        .replace(/\n/g, "<br>")
         .trim();
 
       if (text.length === 0) {
@@ -267,7 +267,7 @@ export default {
       const self = this;
       const index = self
         .$$(e.target)
-        .parents('label.checkbox')
+        .parents("label.checkbox")
         .index();
       const image = self.images[index];
       if (e.target.checked) {
@@ -295,13 +295,13 @@ export default {
     Navbar
   },
   mounted() {
-    console.log('messages.mounted.teamId:', this.teamId);
-    console.log('messages.mounted.channelId:', this.channelId);
+    console.log("messages.mounted.teamId:", this.teamId);
+    console.log("messages.mounted.channelId:", this.channelId);
 
     // this.$store.commit('SET_CURRENT_TEAM_ID', this.teamId);
 
-    const teamId = parseInt(this.teamId, 10);
-    const channelId = parseInt(this.channelId, 10);
+    const teamId = this.teamId;
+    const channelId = this.channelId;
 
     // if (!teamId.isInteger || !channelId.isInteger) {
     //   this.$f7router.navigate('/not-found');
@@ -309,7 +309,7 @@ export default {
     //   console.log('GOTO: ERR PAGE');
     // }
 
-    this.$store.dispatch('loadChannelMessages', {
+    this.$store.dispatch("loadChannelMessages", {
       teamId,
       channelId
     });

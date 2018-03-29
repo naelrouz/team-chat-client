@@ -25,7 +25,7 @@ import routes from './routes';
 // Import Vuex store
 import store from './store';
 // Apollo
-import apolloProvider from './apollo/apollo-provider';
+import apolloProvider from './api/apollo/apollo-provider';
 
 // Import Languages
 import languages from './languages';

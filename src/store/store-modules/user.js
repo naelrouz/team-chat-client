@@ -1,7 +1,7 @@
 import decode from 'jwt-decode';
 import gql from 'graphql-tag';
 
-import apolloClient from '../../apollo/apollo-client';
+import apolloClient from '../../api/apollo/apollo-client';
 
 const state = {
   allUsersList: []
@@ -10,6 +10,15 @@ const state = {
 };
 
 const getters = {
+  userId: () => {
+    try {
+      const { user } = decode(localStorage.getItem('token'));
+      // eslint-disable-next-line prefer-destructuring
+      return user.id;
+    } catch (err) {
+      return false;
+    }
+  },
   username: () => {
     try {
       const { user: { username } } = decode(localStorage.getItem('token'));

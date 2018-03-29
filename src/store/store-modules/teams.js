@@ -9,69 +9,98 @@ const state = {
 };
 
 const getters = {
-  teams: ({ teams }) => teams,
-  // currentTeamId: ({ currentTeam }) => currentTeam.id,
-  // currentTeamName: ({ currentTeam }) => currentTeam.name,
-  // currentTeamChannels: ({ currentTeam }) => currentTeam.channels
-  //
-  //
-  //
+  // Teams
+  teams: ({ teams }) => {
+    try {
+      return teams;
+    } catch (err) {
+      console.log('getters.teams.err: ', err);
+    }
+  },
+  isTeamOwner(state, getters) {
+    try {
+      return getters.currentTeam.owner === getters.userId;
+    } catch (err) {
+      console.error('getters.isTeamOwner.err: ', err.toString());
+      return false;
+    }
+  },
   currentTeamId: ({ teams, currentTeamId }) => {
     try {
       return currentTeamId >= 0 ? currentTeamId : teams[0].id;
     } catch (err) {
-      if (teams.length) {
-        console.error('err: ', err);
-      }
+      console.error('err: ', err.toString());
+      return null;
     }
   },
+  //
   currentTeam: ({ teams, currentTeamId }) =>
     currentTeamId >= 0
       ? teams.find(team => team.id === currentTeamId)
       : teams[0],
-  currentTeamName: ({ teams, currentTeamId }) => {
-    console.log('getters.currentTeamName.currentTeamId: ', currentTeamId);
-    console.log('getters.currentTeamName.teams: ', teams);
+  //
+  currentTeamName: (state, getters) => {
+    console.log(
+      'getters.currentTeamName.currentTeamId: ',
+      getters.currentTeamId
+    );
+    console.log('getters.currentTeamName.teams: ', getters.teams);
 
     try {
-      return currentTeamId >= 0
-        ? teams.find(el => el.id === currentTeamId).name
-        : teams[0].name;
+      return getters.currentTeam.name;
     } catch (err) {
-      if (teams.length) {
-        console.error('err: ', err);
-      }
+      console.error('err: ', err.toString());
+      return null;
     }
   },
-  currentTeamChannels: ({ teams, currentTeamId }) => {
-    console.log('getters.currentTeamChannels.currentTeamId: ', currentTeamId);
+  // Channels
+  currentTeamChannels(state, getters) {
+    console.log(
+      'getters.currentTeamChannels.currentTeamId: ',
+      getters.currentTeamId
+    );
     try {
-      return currentTeamId >= 0
-        ? teams.find(team => team.id === currentTeamId).channels
-        : teams[0].channels;
+      return getters.currentTeam.channels;
     } catch (err) {
-      if (teams.length) {
-        console.error('err: ', err);
+      if (getters.teams.length) {
+        console.error('getters.currentTeamChannels.err: ', err.toString());
       }
+      return null;
     }
   },
-  currentChannelName: ({ teams, currentTeamId, currentChannelId }) => {
-    console.log('getters.currentTeamChannels.currentTeamId: ', currentTeamId);
+  currentChannel(state, getters) {
+    console.log('state.currentChannelId: ', state.currentChannelId);
     try {
-      return currentTeamId >= 0
-        ? teams
-            .find(team => team.id === currentTeamId)
-            .channels.find(channel => channel.id === currentChannelId).name
-        : teams[0].channels[0].name;
+      return state.currentChannelId >= 0
+        ? getters.currentTeamChannels.find(
+            channel => channel.id === state.currentChannelId
+          )
+        : getters.currentTeamChannels[0];
     } catch (err) {
-      if (teams.length && currentChannelId) {
-        console.error('err: ', err);
-      }
+      console.error('getters.currentTeamChannels.err: ', err.toString());
+      return null;
+    }
+  },
+  currentChannelName: (state, getters) => {
+    console.log(
+      'getters.currentTeamChannels.currentTeamId: ',
+      getters.currentTeamId
+    );
+    console.log('>>> getters.currentChannel: ', getters.currentChannel);
+
+    try {
+      return getters.currentChannel.name;
+    } catch (err) {
+      console.error('err: ', err.toString());
+      return null;
     }
   }
 };
 
 const mutations = {
+  // SET_IS_T(state, param) {
+  //   state.isT = !param;
+  // },
   SET_TEAMS(state, allTeams) {
     state.teams = allTeams;
   },
@@ -88,9 +117,16 @@ const mutations = {
 };
 
 const actions = {
+  // get data
   allTeams({ commit }) {
     console.log('actions.allTeams');
-    allTeams({ commit });
+    return allTeams({ commit });
+  },
+  // Async functions
+  isOwner({ getters }) {
+    // console.log('>>>> getters.currentTeam: ',  getters.teams);
+
+    return getters.currentTeam.owner === getters.userId;
   }
 };
 
