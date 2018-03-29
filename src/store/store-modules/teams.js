@@ -54,6 +54,16 @@ const getters = {
     }
   },
   // Channels
+  currentChannelId: ({ currentChannelId }, getters) => {
+    try {
+      return currentChannelId >= 0
+        ? currentChannelId
+        : getters.currentTeamChannels[0].id;
+    } catch (err) {
+      console.error('currentChannelId.err: ', err.toString());
+      return null;
+    }
+  },
   currentTeamChannels(state, getters) {
     console.log(
       'getters.currentTeamChannels.currentTeamId: ',

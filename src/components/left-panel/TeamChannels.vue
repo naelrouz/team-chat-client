@@ -6,14 +6,16 @@
                 f7-icon.team_channels__add_icon(f7="add_round")
                 //- f7-icon.team_channels__add_icon(material="add")
 
-        f7-list
-            f7-list-item(
-                v-for='(channel, index) in currentTeamChannels',
-                :link="`/messages/${channel.teamId}/${channel.id}`",
-                :title='channel.name',
-                :key="channel.id",
-                view='#main-view',
-                panel-close='')
+        //- p currentChannelId: {{currentChannelId}}
+        f7-list   
+          f7-list-item.team_channels__list__item(
+              v-for='(channel, index) in currentTeamChannels',
+              :link="`/messages/${channel.teamId}/${channel.id}`",
+              :title='channel.name',
+              :key="channel.id",
+              :class="{ active: channel.id === currentChannelId}"
+              view='#main-view',
+              panel-close='')
 
 </template>
 
@@ -29,7 +31,8 @@ export default {
       isTeamOwner: 'isTeamOwner',
       teams: 'teams',
       currentTeamChannels: 'currentTeamChannels',
-      currentTeam: 'currentTeam'
+      currentTeam: 'currentTeam',
+      currentChannelId: 'currentChannelId'
     })
   },
   methods: {},
@@ -55,5 +58,9 @@ export default {
   top: 2px;
   color: #fff;
   font-size: 21px;
+}
+
+.team_channels__list__item.active {
+  color: red;
 }
 </style>

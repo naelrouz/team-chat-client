@@ -25,6 +25,7 @@ export default {
     onClick(id) {
       console.log('id: ', id);
       this.$store.commit('SET_CURRENT_TEAM_ID', id);
+      this.$store.commit('SET_CURRENT_CHANNEL_ID', -1);
       this.$f7router.navigate('/panel-left/');
     }
   }
