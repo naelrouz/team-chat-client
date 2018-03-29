@@ -37,17 +37,22 @@ import Navbar from './navbar/Navbar';
 
 export default {
   props: {
-    teamId: {
+    incomingTeamId: {
       type: String,
       required: true
     },
-    channelId: {
+    incomingChannelId: {
       type: String,
       required: true
+      // validator(value) {
+      //   return parseInt(value, 10).isNumber();
+      // }
     }
   },
   data() {
     return {
+      teamId: parseInt(this.incomingTeamId, 10),
+      channelId: parseInt(this.incomingChannelId, 10),
       attachments: [],
       sheetVisible: false,
       // Sheet images available
@@ -142,8 +147,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      username: 'username',
-      currentTeamName: 'currentTeamName'
+      // username: 'username',
+      // currentTeamName: 'currentTeamName'
     }),
     attachmentsVisible() {
       return this.attachments.length > 0;
@@ -290,12 +295,23 @@ export default {
     Navbar
   },
   mounted() {
-    console.log('this.teamId:', this.teamId);
+    console.log('messages.mounted.teamId:', this.teamId);
+    console.log('messages.mounted.channelId:', this.channelId);
+
     // this.$store.commit('SET_CURRENT_TEAM_ID', this.teamId);
 
+    const teamId = parseInt(this.teamId, 10);
+    const channelId = parseInt(this.channelId, 10);
+
+    // if (!teamId.isInteger || !channelId.isInteger) {
+    //   this.$f7router.navigate('/not-found');
+
+    //   console.log('GOTO: ERR PAGE');
+    // }
+
     this.$store.dispatch('loadChannelMessages', {
-      teamId: parseInt(this.teamId, 10),
-      channelId: parseInt(this.channelId, 10)
+      teamId,
+      channelId
     });
   }
 };

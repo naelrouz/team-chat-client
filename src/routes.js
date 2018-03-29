@@ -62,7 +62,7 @@ export default [
   },
 
   {
-    path: '/messages/:teamId/:channelId',
+    path: '/messages/:incomingTeamId/:incomingChannelId',
     component: Messages
   },
   {
