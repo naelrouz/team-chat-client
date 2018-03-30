@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import createPersistedState from 'vuex-persistedstate';
+// import createLogger from 'vuex/dist/logger';
+// import createPersistedState from 'vuex-persistedstate';
 
 import state from './state';
 import getters from './getters';
@@ -19,10 +20,16 @@ export default new Vuex.Store({
   getters,
   mutations,
   actions,
+  // Modules
   modules: {
     user,
     teams,
     messages
-  }
-  // plugins: [createPersistedState()]
+  },
+  // Options
+  strict: true,
+  plugins: [
+    // createPersistedState()
+    // process.env.NODE_ENV === 'development' && createLogger({ collapsed: false })
+  ].filter(Boolean)
 });

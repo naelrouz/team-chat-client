@@ -2,11 +2,12 @@
   f7-page
     navbar()
     // Messagebar
-    f7-messagebar(
+    f7-messagebar.messages__messagebar(
       :placeholder='placeholder',
       ref='messagebar',
       :attachments-visible='attachmentsVisible',
-      :sheet-visible='sheetVisible'
+      :sheet-visible='sheetVisible',
+      @keypress.prevent.enter.native="sendMessage"
       )
       // Link to toggle Sheet
       f7-link(icon-if-ios='f7:camera_fill', icon-if-md='material:camera_alt', slot='inner-start', @click='sheetVisible = !sheetVisible')
@@ -27,13 +28,29 @@
         button(@click="onClick()") set
         b Sunday, Feb 9,
         |  12:58
-      f7-message(v-for='(message, index) in messagesData', :key='index', :type='message.type', :text='message.text', :image='message.image', :name='message.name', :avatar='message.avatar', :first='isFirstMessage(message, index)', :last='isLastMessage(message, index)', :tail='isTailMessage(message, index)')
+      f7-message(
+        v-for='(message, index) in messagesData', 
+        :key='index', 
+        :type='message.type', 
+        :text-header="msgDateFormat(message.createdAt)"
+        :text='message.text',
+        :image='message.image', 
+        :name='message.username', 
+        :avatar='message.avatar', 
+        :first='isFirstMessage(message, index)',       
+        :last='isLastMessage(message, index)', 
+        :tail='isTailMessage(message, index)')
+        
         img(slot="image", v-if="message.attachments", v-for='(img, index) in message.attachments', :src="img")
 </template>
 <script>
-import { mapGetters } from "vuex";
+import moment from 'moment';
+import { mapGetters } from 'vuex';
 
-import Navbar from "./navbar/Navbar";
+// import { createMessage } from '../api';
+
+import Navbar from './navbar/Navbar';
+import messages from '../store/store-modules/messages';
 
 export default {
   props: {
@@ -57,89 +74,38 @@ export default {
       sheetVisible: false,
       // Sheet images available
       images: [
-        "https://picsum.photos/300/200?image=0",
-        "https://picsum.photos/300/200?image=1",
-        "https://picsum.photos/300/200?image=2",
-        "https://picsum.photos/300/200?image=3"
+        'https://picsum.photos/300/200?image=0',
+        'https://picsum.photos/300/200?image=1',
+        'https://picsum.photos/300/200?image=2',
+        'https://picsum.photos/300/200?image=3'
       ],
 
       // Initial messages
-      messagesData: [
-        {
-          type: "sent",
-          text: "Hi, Kate"
-        },
-        {
-          type: "sent",
-          text: "How are you?"
-        },
-        {
-          name: "Kate",
-          type: "received",
-          text: "Hi, I am good!",
-          avatar: "http://lorempixel.com/100/100/people/9"
-        },
-        {
-          name: "Blue Ninja",
-          type: "received",
-          text: "Hi there, I am also fine, thanks! And how are you?",
-          avatar: "http://lorempixel.com/100/100/people/7"
-        },
-        {
-          type: "sent",
-          text: "Hey, Blue Ninja! Glad to see you ;)"
-        },
-        {
-          type: "sent",
-          text: "Hey, look, cutest kitten ever!"
-        },
-        {
-          type: "sent",
-          image: "http://lorempixel.com/200/260/cats/4/"
-        },
-        {
-          name: "Kate",
-          type: "received",
-          text: "Nice!",
-          avatar: "http://lorempixel.com/100/100/people/9"
-        },
-        {
-          name: "Kate",
-          type: "received",
-          text: "Like it very much!",
-          avatar: "http://lorempixel.com/100/100/people/9"
-        },
-        {
-          name: "Blue Ninja",
-          type: "received",
-          text: "Awesome!",
-          avatar: "http://lorempixel.com/100/100/people/7"
-        }
-      ],
+
       // Dummy data
       people: [
         {
-          name: "Kate Johnson",
-          avatar: "http://lorempixel.com/100/100/people/9"
+          name: 'Kate Johnson',
+          avatar: 'http://lorempixel.com/100/100/people/9'
         },
         {
-          name: "Blue Ninja",
-          avatar: "http://lorempixel.com/100/100/people/7"
+          name: 'Blue Ninja',
+          avatar: 'http://lorempixel.com/100/100/people/7'
         }
       ],
       answers: [
-        "Yes!",
-        "No",
-        "Hm...",
-        "I am not sure",
-        "And what about you?",
-        "May be ;)",
-        "Lorem ipsum dolor sit amet, consectetur",
-        "What?",
-        "Are you sure?",
-        "Of course",
-        "Need to think about it",
-        "Amazing!!!"
+        'Yes!',
+        'No',
+        'Hm...',
+        'I am not sure',
+        'And what about you?',
+        'May be ;)',
+        'Lorem ipsum dolor sit amet, consectetur',
+        'What?',
+        'Are you sure?',
+        'Of course',
+        'Need to think about it',
+        'Amazing!!!'
       ],
       // Response in progress flag
       responseInProgress: false
@@ -147,21 +113,21 @@ export default {
   },
   computed: {
     ...mapGetters({
-      // username: 'username',
-      // currentTeamName: 'currentTeamName'
+      messagesData: 'messages',
+      currentChannelId: 'currentChannelId'
     }),
     attachmentsVisible() {
       return this.attachments.length > 0;
     },
     placeholder() {
       const self = this;
-      return self.attachments.length > 0 ? "Add comment or Send" : "Message";
+      return self.attachments.length > 0 ? 'Add comment or Send' : 'Message';
     }
   },
   methods: {
     onClick() {
       // this.$store.commit('SET_SELECTED_TEAM', this.teamId);
-      this.$store.commit("SET_CURRENT_TEAM_ID", 189);
+      this.$store.commit('SET_CURRENT_TEAM_ID', 189);
     },
     // Messages rules for correct styling
     isFirstMessage(message, index) {
@@ -200,29 +166,39 @@ export default {
         return true;
       return false;
     },
-    sendMessage() {
-      const self = this;
+    sendMessage(e) {
+      // e.preventDefault();
 
-      const text = self.messagebar
+      console.log('>>>>>>>>>>');
+
+      const self = this;
+      const newMessage = {};
+
+      newMessage.text = self.messagebar
         .getValue()
-        .replace(/\n/g, "<br>")
+        .replace(/\n/g, '<br>')
         .trim();
 
-      if (text.length === 0) {
+      if (newMessage.text.length === 0) {
         // exit when empty messagebar text is empty
         return;
       }
 
-      const attachments = this.attachments.slice();
+      newMessage.attachments = this.attachments.slice();
 
       // Clear messagebar area
       self.messagebar.clear();
 
       // Focus area
-      if (text.length) self.messagebar.focus();
+      if (newMessage.text.length) self.messagebar.focus();
 
       // Add sent message
-      self.messagesData.push({ text, attachments });
+      // self.messagesData.push({ text, attachments });
+
+      this.$store.dispatch('createMessage', {
+        channelId: this.currentChannelId,
+        ...newMessage
+      });
 
       // Mock response
       if (self.responseInProgress) {
@@ -252,10 +228,9 @@ export default {
       // }, 1000);
     },
     onF7Ready() {
-      const self = this;
       // References to us APIs
-      self.messagebar = self.$refs.messagebar.f7Messagebar;
-      self.messages = self.$refs.messages.f7Messages;
+      this.messagebar = this.$refs.messagebar.f7Messagebar;
+      this.messages = this.$refs.messages.f7Messages;
     },
     // BAR ------------
     deleteAttachment(image) {
@@ -267,7 +242,7 @@ export default {
       const self = this;
       const index = self
         .$$(e.target)
-        .parents("label.checkbox")
+        .parents('label.checkbox')
         .index();
       const image = self.images[index];
       if (e.target.checked) {
@@ -277,7 +252,7 @@ export default {
         // Remove from attachments
         self.attachments.splice(self.attachments.indexOf(image), 1);
       }
-    }
+    },
     // sendMessage() {
     //   const self = this;
     //   const text = self.messagebar
@@ -290,18 +265,18 @@ export default {
     //   const self = this;
     //   self.messagebar = self.$refs.messagebar.f7Messagebar;
     // }
+    msgDateFormat: date => moment(date).format('MMMM Do YYYY, h:mm:ss a')
   },
   components: {
     Navbar
   },
   mounted() {
-    console.log("messages.mounted.teamId:", this.teamId);
-    console.log("messages.mounted.channelId:", this.channelId);
+    console.log('messages.mounted.teamId:', this.teamId);
+    console.log('messages.mounted.channelId:', this.channelId);
 
     // this.$store.commit('SET_CURRENT_TEAM_ID', this.teamId);
 
-    const teamId = this.teamId;
-    const channelId = this.channelId;
+    const { teamId, channelId } = this;
 
     // if (!teamId.isInteger || !channelId.isInteger) {
     //   this.$f7router.navigate('/not-found');
@@ -309,7 +284,7 @@ export default {
     //   console.log('GOTO: ERR PAGE');
     // }
 
-    this.$store.dispatch("loadChannelMessages", {
+    this.$store.dispatch('loadChannelMessages', {
       teamId,
       channelId
     });

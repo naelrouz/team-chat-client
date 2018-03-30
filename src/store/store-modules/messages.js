@@ -1,8 +1,10 @@
 import _ from 'lodash';
 
-import { channelMessages } from '../../api/';
+import { channelMessages, createMessage } from '../../api/';
 
 const state = {
+  status: false,
+  errors: [],
   messages: []
 };
 
@@ -11,15 +13,24 @@ const getters = {
 };
 
 const mutations = {
-  SET_MESSAGES(state, messages) {
-    state.messages = messages;
+  SET_MESSAGES(state, SET_CHANNEL_MESSAGES) {
+    state.messages = SET_CHANNEL_MESSAGES;
   }
 };
 
 const actions = {
-  async loadChannelMessages({ commit }, channel) {
+  loadChannelMessages({ commit }, channel) {
     // load all Teams and set current Teams and Channel
-    channelMessages({ commit, channel });
+    const { teamId, channelId } = channel;
+    channelMessages(channel);
+    commit('SET_CURRENT_TEAM_ID', teamId);
+    commit('SET_CURRENT_CHANNEL_ID', channelId);
+  },
+  createMessage({ commit }, newMessage) {
+    console.log('actions.createMessage.channel:', newMessage);
+
+    // load all Teams and set current Teams and Channel
+    createMessage(newMessage);
   }
 };
 

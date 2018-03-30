@@ -1,18 +1,20 @@
 import apolloClient from './apollo/apollo-client';
-import ALL_TEAMS from './graphql/queries/ALL_TEAMS.gql';
+import CHANNEL_MESSAGES from './graphql/queries/CHANNEL_MESSAGES.gql';
 
-// import vueStore from "../store";
+import store from '../store';
 
-export default ({ commit, channel }) => {
+export default channel => {
+  console.log('api.channelMessages.channel:', channel);
+
   apolloClient
     .query({
-      query: ALL_TEAMS
+      query: CHANNEL_MESSAGES,
+      variables: channel
     })
-    .then(({ data: { allTeams } }) => {
-      console.log('actions.channelMessages.channel:', channel);
+    .then(({ data: { channelMessages } }) => {
+      console.log('api.channelMessages:', channelMessages);
 
-      commit('SET_CURRENT_TEAM_ID', channel.teamId);
-      commit('SET_CURRENT_CHANNEL_ID', channel.channelId);
+      store.commit('SET_MESSAGES', channelMessages);
     });
 };
 

@@ -1,0 +1,9 @@
+mutation($channelId: Int!, $text: String!) {
+  createMessage(channelId: $channelId, text: $text) {
+    status
+    errors {
+      path
+      message
+    }
+  }
+}

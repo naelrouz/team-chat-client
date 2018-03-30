@@ -6,12 +6,15 @@ import createChannel from './createChannel';
 import channelMessages from './channelMessages';
 import addTeamMember from './addTeamMember';
 
+import createMessage from './createMessage';
+
 export {
   register,
   login,
   createTeam,
   allTeams,
+  addTeamMember,
   createChannel,
   channelMessages,
-  addTeamMember
+  createMessage
 };

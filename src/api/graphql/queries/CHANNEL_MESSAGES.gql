@@ -1,0 +1,11 @@
+query($channelId: Int!) {
+  channelMessages(channelId: $channelId) {
+    id
+    text
+    createdAt
+    user {
+      id
+      username
+    }
+  }
+}

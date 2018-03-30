@@ -25,3 +25,11 @@ https://github.com/apollographql/apollo-client/blob/master/docs/source/2.0-migra
 
 ## Testing
 
+## JOIN WTF !!! I DON'T UNDERSTAND :) READ DOCS!
+
+```SQL
+SELECT * FROM "Teams" INNER JOIN ( "members" AS "Users->member" INNER JOIN "Users" AS "Users" ON "Users"."id" = "Users->member"."user_id") ON "Team"."id" = "Users->member"."team_id" AND "Users"."id" = 1;
+
+
+select * from "Teams" join "members" on "Teams"."id" = "members"."team_id" where user_id = ?
+```
