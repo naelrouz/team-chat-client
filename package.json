@@ -9,7 +9,8 @@
     "start": "npm run dev",
     "build": "node build/build.js",
     "copy-fonts": "cpy node_modules/framework7-icons/fonts/*.* src/fonts && cpy node_modules/material-design-icons/iconfont/*.{eot,ttf,woff,woff2} src/fonts",
-    "postinstall": "npm run copy-fonts"
+    "postinstall": "npm run copy-fonts",
+    "wba": "node build/build.js"
   },
   "repository": {
     "type": "git",
@@ -113,9 +114,10 @@
     "wdio-mocha-framework": "^0.5.13",
     "wdio-spec-reporter": "^0.1.4",
     "webpack": "^3.6.0",
-    "webpack-bundle-analyzer": "^2.9.0",
+    "webpack-bundle-analyzer": "^2.11.1",
     "webpack-dev-server": "^2.9.1",
-    "webpack-merge": "^4.1.0"
+    "webpack-merge": "^4.1.0",
+    "webpack-runtime-analyzer": "^1.5.0"
   },
   "engines": {
     "node": ">= 6.0.0",
