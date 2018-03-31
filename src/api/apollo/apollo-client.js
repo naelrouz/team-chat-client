@@ -3,8 +3,10 @@ import { ApolloClient } from 'apollo-client';
 import { HttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import VueApollo from 'vue-apollo';
-import { ApolloLink, concat, from } from 'apollo-link';
+import { ApolloLink, concat, split, from } from 'apollo-link';
 import { onError } from 'apollo-link-error';
+import { WebSocketLink } from 'apollo-link-ws';
+import { getMainDefinition } from 'apollo-utilities';
 
 // import { setContext } from 'apollo-link-context';
 
@@ -15,35 +17,22 @@ const httpLink = new HttpLink({
   uri: 'http://localhost:3000/graphql'
 });
 
-// const authLink = setContext((_, { headers }) => {
-//   // get the authentication token from local storage if it exists
-//   const { token, refreshToken } = store.getters;
-//   // return the headers to the context so httpLink can read them
-//   return {
-//     headers: {
-//       ...headers,
-//       'x-token': token,
-//       'x-refresh-token': refreshToken
-//       // authorization: token ? `Bearer ${token}` : ''
-//     }
-//   };
-// });
+const wsLink = new WebSocketLink({
+  uri: 'ws://localhost:3000/subscriptions',
+  options: {
+    reconnect: true
+  }
+});
 
-// networkInterface.use([
-//   {
-//     applyMiddleware(req, next) {
-//       if (!req.options.headers) {
-//         req.options.headers = {};
-//       }
-
-//       req.options.headers['x-token'] = localStorage.getItem('token');
-//       req.options.headers['x-refresh-token'] = localStorage.getItem(
-//         'refreshToken'
-//       );
-//       next();
-//     }
-//   }
-// ]);
+const onErr = onError(({ graphQLErrors, networkError }) => {
+  if (graphQLErrors)
+    graphQLErrors.map(({ message, locations, path }) =>
+      console.log(
+        `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
+      )
+    );
+  if (networkError) console.log(`[Network error]: ${networkError}`);
+});
 
 const authMiddleware = new ApolloLink((operation, forward) => {
   const { token, refreshToken } = store.getters;
@@ -95,7 +84,35 @@ const afterwareLink = new ApolloLink((operation, forward) =>
 // // use with apollo-client
 // const link = afterwareLink.concat(httpLink);
 
-const link = afterwareLink.concat(from([authMiddleware, httpLink]));
+const httpLinkWithMiddlewars = afterwareLink.concat(
+  from([authMiddleware, httpLink])
+);
+
+// const httpLinkWithMiddlewars =from([
+//   onError(({ graphQLErrors, networkError }) => {
+//     if (graphQLErrors)
+//       graphQLErrors.map(({ message, locations, path }) =>
+//         console.log(
+//           `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
+//         ),
+//       );
+//     if (networkError) console.log(`[Network error]: ${networkError}`);
+//   }),
+//   new HttpLink({
+//     uri: 'https://w5xlvm3vzz.lp.gql.zone/graphql',
+//     credentials: 'same-origin'
+//   })
+// ])
+
+const link = split(
+  // split based on operation type
+  ({ query }) => {
+    const { kind, operation } = getMainDefinition(query);
+    return kind === 'OperationDefinition' && operation === 'subscription';
+  },
+  wsLink,
+  httpLinkWithMiddlewars
+);
 
 // const link = from([authMiddleware, httpLink]);
 
