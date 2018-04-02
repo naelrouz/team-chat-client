@@ -96,7 +96,7 @@ const getters = {
       'getters.currentTeamChannels.currentTeamId: ',
       getters.currentTeamId
     );
-    console.log('>>> getters.currentChannel: ', getters.currentChannel);
+    // console.log('>>> getters.currentChannel: ', getters.currentChannel);
 
     try {
       return getters.currentChannel.name;

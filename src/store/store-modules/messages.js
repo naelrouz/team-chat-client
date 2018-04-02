@@ -9,12 +9,22 @@ const state = {
 };
 
 const getters = {
-  messages: ({ messages }) => messages
+  // messages: ({ messages }) => messages
+  messages: ({ messages }, { userId }) =>
+    messages.map(message => ({
+      ...message,
+      type: message.user.id === userId ? 'sent' : 'received'
+    }))
 };
 
 const mutations = {
-  SET_MESSAGES(state, SET_CHANNEL_MESSAGES) {
-    state.messages = SET_CHANNEL_MESSAGES;
+  SET_MESSAGES(state, channelMessages) {
+    state.messages = channelMessages;
+  },
+  ADD_NEW_MESSAGES(state, newMessage) {
+    const { messages } = state;
+
+    state.messages = [...messages, newMessage];
   }
 };
 

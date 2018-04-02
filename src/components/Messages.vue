@@ -25,7 +25,7 @@
     f7-messages(ref='messages')
       f7-messages-title
         h2 teamId: {{teamId}} / channelId: {{channelId}}
-        button(@click="onClick()") set
+        //- button(@click="onClick()") set
         b Sunday, Feb 9,
         |  12:58
       f7-message(
@@ -35,7 +35,7 @@
         :text-header="msgDateFormat(message.createdAt)"
         :text='message.text',
         :image='message.image', 
-        :name='message.username', 
+        :name="message.user.username", 
         :avatar='message.avatar', 
         :first='isFirstMessage(message, index)',       
         :last='isLastMessage(message, index)', 
@@ -52,7 +52,36 @@ import { mapGetters } from 'vuex';
 import Navbar from './navbar/Navbar';
 import messages from '../store/store-modules/messages';
 
+import CHANNEL_MESSAGES from '../api/graphql/queries/CHANNEL_MESSAGES.gql';
+import NEW_CHANNEL_MESSAGE from '../api/graphql/subscriptions/NEW_CHANNEL_MESSAGE.gql';
+
 export default {
+  // apollo: {
+  //   channelMessages: {
+  //     query: CHANNEL_MESSAGES,
+  //     variables() {
+  //       return {
+  //         channelId: 2
+  //       };
+  //     },
+  //     subscribeToMore: {
+  //       document: NEW_CHANNEL_MESSAGE,
+  //       // Variables passed to the subscription. Since we're using a function,
+  //       // they are reactive
+  //       variables() {
+  //         return {
+  //           channelId: 2
+  //         };
+  //       },
+  //       // Mutate the previous result
+  //       updateQuery: (previousResult, { subscriptionData }) => {
+  //         // Here, return the new result from the previous with the new data
+  //         console.log('>>>>> previousResult:', previousResult);
+  //         console.log('>>>>> subscriptionData:', subscriptionData);
+  //       }
+  //     }
+  //   }
+  // },
   props: {
     incomingTeamId: {
       type: String,
@@ -68,6 +97,8 @@ export default {
   },
   data() {
     return {
+      // channelMessages: [],
+      // messagesData: [],
       teamId: parseInt(this.incomingTeamId, 10),
       channelId: parseInt(this.incomingChannelId, 10),
       attachments: [],
@@ -113,6 +144,7 @@ export default {
   },
   computed: {
     ...mapGetters({
+      userId: 'userId',
       messagesData: 'messages',
       currentChannelId: 'currentChannelId'
     }),
@@ -125,6 +157,9 @@ export default {
     }
   },
   methods: {
+    // messageType(message) {
+    //   return message.user.id === this.userId ? 'sent' : 'received';
+    // },
     onClick() {
       // this.$store.commit('SET_SELECTED_TEAM', this.teamId);
       this.$store.commit('SET_CURRENT_TEAM_ID', 189);
@@ -168,8 +203,6 @@ export default {
     },
     sendMessage(e) {
       // e.preventDefault();
-
-      console.log('>>>>>>>>>>');
 
       const self = this;
       const newMessage = {};
@@ -265,18 +298,32 @@ export default {
     //   const self = this;
     //   self.messagebar = self.$refs.messagebar.f7Messagebar;
     // }
-    msgDateFormat: date => moment(date).format('MMMM Do YYYY, h:mm:ss a')
+    msgDateFormat: date => date
+    // moment(date).format('MMMM Do YYYY, h:mm:ss a')
   },
   components: {
     Navbar
   },
   mounted() {
+    const { teamId, channelId } = this;
+
     console.log('messages.mounted.teamId:', this.teamId);
     console.log('messages.mounted.channelId:', this.channelId);
 
-    // this.$store.commit('SET_CURRENT_TEAM_ID', this.teamId);
+    // Programmatic subscription
+    // const observer = this.$apollo.subscribe({
+    //   query: NEW_CHANNEL_MESSAGE,
+    //   variables: {
+    //     channelId
+    //   }
+    // });
+    // observer.subscribe({
+    //   next(data) {
+    //     console.log('this.$apollo.subscribe', data);
+    //   }
+    // });
 
-    const { teamId, channelId } = this;
+    // this.$store.commit('SET_CURRENT_TEAM_ID', this.teamId);
 
     // if (!teamId.isInteger || !channelId.isInteger) {
     //   this.$f7router.navigate('/not-found');
@@ -291,3 +338,11 @@ export default {
   }
 };
 </script>
+
+
+<style lang="stylus">
+.messages {
+  min-height: auto;
+  height: calc(100% - 80px);
+}
+</style>
