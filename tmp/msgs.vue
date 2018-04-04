@@ -29,7 +29,7 @@
         b Sunday, Feb 9,
         |  12:58
       f7-message(
-        v-for='(message, index) in messagesData', 
+        v-for='(message, index) in channelMessages', 
         :key='index', 
         :type='message.type', 
         :text-header="msgDateFormat(message.createdAt)"
@@ -56,6 +56,29 @@ import CHANNEL_MESSAGES from '../api/graphql/queries/CHANNEL_MESSAGES.gql';
 import NEW_CHANNEL_MESSAGE from '../api/graphql/subscriptions/NEW_CHANNEL_MESSAGE.gql';
 
 export default {
+  apollo: {
+    channelMessages: {
+      query: CHANNEL_MESSAGES,
+      variables: {
+        channelId: 2
+      },
+      subscribeToMore: {
+        document: NEW_CHANNEL_MESSAGE,
+        // Variables passed to the subscription. Since we're using a function,
+        // they are reactive
+        variables() {
+          return {
+            channelId: 2
+          };
+        },
+        // Mutate the previous result
+        updateQuery: (previousResult, { subscriptionData }) => {
+          // Here, return the new result from the previous with the new data
+          console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+        }
+      }
+    }
+  },
   props: {
     incomingTeamId: {
       type: String,
@@ -71,7 +94,6 @@ export default {
   },
   data() {
     return {
-      id: 1,
       channelMessages: [],
       // messagesData: [],
       teamId: parseInt(this.incomingTeamId, 10),
@@ -311,8 +333,8 @@ export default {
       channelId
     };
 
-    this.$store.dispatch('loadChannelMessages', channel);
-    this.$store.dispatch('subscribeToMessages', channel);
+    // this.$store.dispatch('loadChannelMessages', channel);
+    // this.$store.dispatch('subscribeToMessages', channel);
   }
   // destroyed() {
   //   this.$store.dispatch('unsubscribeFromMessages');
@@ -323,6 +345,6 @@ export default {
 
 <style lang="stylus">
 .messages {
-  padding-bottom: 100px;
+    padding-bottom: 100px;
 }
 </style>

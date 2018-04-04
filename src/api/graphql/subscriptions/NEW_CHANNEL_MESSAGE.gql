@@ -2,10 +2,11 @@ subscription($channelId: Int!) {
   newChannelMessage(channelId: $channelId) {
     id
     text
+    channelId
+    createdAt
     user {
       id
       username
     }
-    createdAt
   }
 }

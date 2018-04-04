@@ -1,11 +1,16 @@
-import _ from 'lodash';
+// import _ from 'lodash';
 
 import { channelMessages, createMessage } from '../../api/';
+import apolloClient from '../../api/apollo/apollo-client';
+
+import CHANNEL_MESSAGES from '../../api/graphql/queries/CHANNEL_MESSAGES.gql';
+import NEW_CHANNEL_MESSAGE from '../../api/graphql/subscriptions/NEW_CHANNEL_MESSAGE.gql';
 
 const state = {
   status: false,
   errors: [],
-  messages: []
+  messages: [],
+  messagesSubscriptionObservers: []
 };
 
 const getters = {
@@ -14,17 +19,23 @@ const getters = {
     messages.map(message => ({
       ...message,
       type: message.user.id === userId ? 'sent' : 'received'
-    }))
+    })),
+  isSubscribeToMessages: ({ messagesSubscriptionObserver }) =>
+    !!messagesSubscriptionObserver.subscribe
 };
 
 const mutations = {
   SET_MESSAGES(state, channelMessages) {
     state.messages = channelMessages;
   },
-  ADD_NEW_MESSAGES(state, newMessage) {
-    const { messages } = state;
 
-    state.messages = [...messages, newMessage];
+  SET_MESSAGES_SUBSCRIPTION_OBSERVER(
+    state,
+    { messagesSubscriptionObserver, channelId }
+  ) {
+    state.messagesSubscriptionObservers[
+      channelId
+    ] = messagesSubscriptionObserver;
   }
 };
 
@@ -41,6 +52,105 @@ const actions = {
 
     // load all Teams and set current Teams and Channel
     createMessage(newMessage);
+  },
+  // Subscriptions
+  async subscribeToMessages({ state, commit, dispatch }, channel) {
+    try {
+      if (state.messagesSubscriptionObservers[channel.channelId]) {
+        console.log(
+          `- messagesSubscriptionObservers[${channel.channelId}] is isset`
+        );
+        return;
+      }
+    } catch (err) {
+      console.log('subscribeToMessages.err:', err);
+    }
+
+    try {
+      const messagesSubscriptionObserver = await apolloClient.subscribe({
+        query: NEW_CHANNEL_MESSAGE,
+        variables: channel
+      });
+
+      console.log(
+        '>>>>>>>>> messagesSubscriptionObserver: ',
+        messagesSubscriptionObserver
+      );
+
+      await messagesSubscriptionObserver.subscribe({
+        next({ data: { newChannelMessage } }) {
+          console.log(
+            'api.channelMessages.apolloClient.subscribe.newChannelMessage: ',
+            newChannelMessage
+          );
+
+          if (!newChannelMessage.user) {
+            throw Error('New Channel Message not contain User data');
+          }
+
+          dispatch('addNewMessage', newChannelMessage);
+        },
+        error(error) {
+          console.log(error);
+        }
+      });
+
+      commit('SET_MESSAGES_SUBSCRIPTION_OBSERVER', {
+        messagesSubscriptionObserver,
+        channelId: channel.channelId
+      });
+      console.log(
+        `+ messagesSubscriptionObservers[${channel.channelId}] added`
+      );
+    } catch (err) {
+      console.error('subscribeToMessages.err: ', err);
+    }
+  },
+  // unsubscribeFromMessages({ state, getters, commit }) {
+  //   // console.log(
+  //   //   '>>>>>>> state.messagesSubscriptionObserver:',
+  //   //   state.messagesSubscriptionObserver
+  //   // );
+  //   try {
+  //     if (getters.isSubscribeToMessages) {
+  //       console.log(
+  //         '>>>>>>>> state.messagesSubscriptionObserver:',
+  //         state.messagesSubscriptionObserver
+  //       );
+  //       //
+  //       state.messagesSubscriptionObserver.subscribe();
+  //       //
+  //       commit('SET_MESSAGES_SUBSCRIPTION_OBSERVER', null);
+  //     }
+  //   } catch (err) {
+  //     console.log('unsubscribeFromMessages.err:', err);
+  //   }
+  // }
+  async addNewMessage({ state, commit }, newMessage) {
+    const { messages } = state;
+    const { channelId } = newMessage;
+
+    const channelMessagesQuery = {
+      query: CHANNEL_MESSAGES,
+      variables: { channelId },
+      kind: 'Document'
+    };
+
+    const data = await apolloClient.readQuery(channelMessagesQuery);
+    data.channelMessages.push({ ...newMessage });
+    console.log('>>> channelMessagesData', data);
+
+    // apolloClient.writeQuery(
+    //   ...channelMessagesQuery,
+    //   (data: channelMessagesData)
+    // );
+
+    apolloClient.writeQuery({
+      ...channelMessagesQuery,
+      data
+    });
+
+    commit('SET_MESSAGES', [...messages, newMessage]);
   }
 };
 

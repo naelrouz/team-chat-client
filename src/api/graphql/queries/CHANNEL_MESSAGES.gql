@@ -2,6 +2,7 @@ query($channelId: Int!) {
   channelMessages(channelId: $channelId) {
     id
     text
+    channelId
     createdAt
     user {
       id

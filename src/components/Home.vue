@@ -80,6 +80,9 @@ export default {
   },
   components: {
     Navbar
+  },
+  mounted() {
+    console.log('$apollo: ', this.$apollo);
   }
 };
 </script>

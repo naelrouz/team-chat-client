@@ -10,6 +10,8 @@ import { getMainDefinition } from 'apollo-utilities';
 
 // import { setContext } from 'apollo-link-context';
 
+// TODO rewrite as here https://www.apollographql.com/docs/react/advanced/boost-migration.html
+
 import store from '../../store/index';
 
 const httpLink = new HttpLink({
@@ -24,15 +26,16 @@ const wsLink = new WebSocketLink({
   }
 });
 
-const onErr = onError(({ graphQLErrors, networkError }) => {
-  if (graphQLErrors)
-    graphQLErrors.map(({ message, locations, path }) =>
-      console.log(
-        `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
-      )
-    );
-  if (networkError) console.log(`[Network error]: ${networkError}`);
-});
+// TODO
+// const onErr = onError(({ graphQLErrors, networkError }) => {
+//   if (graphQLErrors)
+//     graphQLErrors.map(({ message, locations, path }) =>
+//       console.log(
+//         `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
+//       )
+//     );
+//   if (networkError) console.log(`[Network error]: ${networkError}`);
+// });
 
 const authMiddleware = new ApolloLink((operation, forward) => {
   const { token, refreshToken } = store.getters;
