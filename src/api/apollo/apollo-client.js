@@ -14,6 +14,8 @@ import { getMainDefinition } from 'apollo-utilities';
 
 import store from '../../store/index';
 
+const { token, refreshToken } = store.getters;
+
 const httpLink = new HttpLink({
   // You should use an absolute URL here
   uri: 'http://localhost:3000/graphql'
@@ -22,7 +24,11 @@ const httpLink = new HttpLink({
 const wsLink = new WebSocketLink({
   uri: 'ws://localhost:3000/subscriptions',
   options: {
-    reconnect: true
+    reconnect: true,
+    connectionParams: {
+      token,
+      refreshToken
+    }
   }
 });
 
@@ -38,8 +44,6 @@ const wsLink = new WebSocketLink({
 // });
 
 const authMiddleware = new ApolloLink((operation, forward) => {
-  const { token, refreshToken } = store.getters;
-
   // add the authorization to the headers
   operation.setContext(({ headers = {} }) => ({
     headers: {
