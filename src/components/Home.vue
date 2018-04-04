@@ -82,7 +82,7 @@ export default {
     Navbar
   },
   mounted() {
-    console.log('$apollo: ', this.$apollo);
+    // console.log('$apollo: ', this.$apollo);
   }
 };
 </script>

@@ -1,43 +1,46 @@
-import _ from 'lodash';
+// import _ from 'lodash';
 
-import { allTeams } from '../../api/';
+import { userTeams } from '../../api/';
 
 const state = {
-  teams: [],
   currentTeamId: -1,
   currentChannelId: -1
 };
 
 const getters = {
   // Teams
-  teams: ({ teams }) => {
+  teams: ({ teams }, getters) => {
     try {
-      return teams;
+      return getters.me.teams;
     } catch (err) {
-      console.log('getters.teams.err: ', err);
+      console.error('getters.teams.err: ', err.toString());
+      return null;
     }
   },
   isTeamOwner(state, getters) {
-    try {
-      return getters.currentTeam.owner === getters.userId;
-    } catch (err) {
-      console.error('getters.isTeamOwner.err: ', err.toString());
-      return false;
-    }
+    return false;
+    // try {
+    //   return getters.currentTeam.owner === getters.userId;
+    // } catch (err) {
+    //   console.error('getters.isTeamOwner.err: ', err.toString());
+    //   return false;
+    // }
   },
-  currentTeamId: ({ teams, currentTeamId }) => {
+  currentTeamId: (state, getters) => {
     try {
-      return currentTeamId >= 0 ? currentTeamId : teams[0].id;
+      return state.currentTeamId >= 0
+        ? state.currentTeamId
+        : getters.teams[0].id;
     } catch (err) {
-      console.error('err: ', err.toString());
+      console.error('getters.currentTeamId.err: ', err.toString());
       return null;
     }
   },
   //
-  currentTeam: ({ teams, currentTeamId }) =>
-    currentTeamId >= 0
-      ? teams.find(team => team.id === currentTeamId)
-      : teams[0],
+  currentTeam: (state, getters) =>
+    getters.currentTeamId >= 0
+      ? getters.teams.find(team => team.id === getters.currentTeamId)
+      : getters.teams[0],
   //
   currentTeamName: (state, getters) => {
     console.log(
@@ -111,8 +114,8 @@ const mutations = {
   // SET_IS_T(state, param) {
   //   state.isT = !param;
   // },
-  SET_TEAMS(state, allTeams) {
-    state.teams = allTeams;
+  SET_TEAMS(state, userTeams) {
+    state.teams = userTeams;
   },
   SET_CURRENT_TEAM_ID(state, teamId) {
     console.log('SET_CURRENT_TEAM_ID.id:', teamId);
@@ -128,9 +131,9 @@ const mutations = {
 
 const actions = {
   // get data
-  allTeams({ commit }) {
-    console.log('actions.allTeams');
-    return allTeams({ commit });
+  userTeams({ commit }) {
+    console.log('actions.userTeams');
+    return userTeams({ commit });
   },
   // Async functions
   isOwner({ getters }) {

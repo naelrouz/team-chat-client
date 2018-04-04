@@ -2,14 +2,17 @@ import decode from 'jwt-decode';
 import gql from 'graphql-tag';
 
 import apolloClient from '../../api/apollo/apollo-client';
+import { me } from '../../api/';
 
 const state = {
+  me: null,
   allUsersList: []
   // token: localStorage.getItem('token'),
   // refreshToken: localStorage.getItem('refreshToken')
 };
 
 const getters = {
+  me: ({ me }) => me,
   userId: () => {
     try {
       const { user } = decode(localStorage.getItem('token'));
@@ -53,10 +56,10 @@ const mutations = {
   SET_REFRESH_TOKEN(state, refreshToken) {
     // state.refreshToken = refreshToken;
     localStorage.setItem('refreshToken', refreshToken);
+  },
+  SET_ME(state, me) {
+    state.me = me;
   }
-  // SET_REGISTER_RESPONSE(state, registerResponse) {
-  //   state.registerResponse = registerResponse;
-  // }
 };
 const actions = {
   allUsers({ commit }) {
@@ -77,6 +80,10 @@ const actions = {
         // console.log('actions.allUsers.result', allUsers);
         commit('SET_USERS_LIST', allUsers);
       });
+  },
+  me() {
+    // console.log('>>>>>>>> actions.me');
+    return me();
   }
 };
 
