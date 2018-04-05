@@ -3,45 +3,41 @@
 import { userTeams } from '../../api/';
 
 const state = {
+  teams: [],
   currentTeamId: -1,
   currentChannelId: -1
 };
 
 const getters = {
   // Teams
-  teams: ({ teams }, getters) => {
+  teams: ({ teams }) => {
     try {
-      return getters.me.teams;
+      return teams;
     } catch (err) {
-      console.error('getters.teams.err: ', err.toString());
-      return null;
+      console.log('getters.teams.err: ', err);
     }
   },
-  isCanAddChannel(state, getters) {
+  isTeamOwner(state, getters) {
     try {
-      // console.log('getters.currentTeams: ', getters.currentTeam);
-
-      return getters.currentTeam.admin;
+      return getters.currentTeam.owner === getters.userId;
     } catch (err) {
       console.error('getters.isTeamOwner.err: ', err.toString());
       return false;
     }
   },
-  currentTeamId: (state, getters) => {
+  currentTeamId: ({ teams, currentTeamId }) => {
     try {
-      return state.currentTeamId >= 0
-        ? state.currentTeamId
-        : getters.teams[0].id;
+      return currentTeamId >= 0 ? currentTeamId : teams[0].id;
     } catch (err) {
-      console.error('getters.currentTeamId.err: ', err.toString());
+      console.error('err: ', err.toString());
       return null;
     }
   },
   //
-  currentTeam: (state, getters) =>
-    getters.currentTeamId >= 0
-      ? getters.teams.find(team => team.id === getters.currentTeamId)
-      : getters.teams[0],
+  currentTeam: ({ teams, currentTeamId }) =>
+    currentTeamId >= 0
+      ? teams.find(team => team.id === currentTeamId)
+      : teams[0],
   //
   currentTeamName: (state, getters) => {
     console.log(
@@ -136,12 +132,12 @@ const actions = {
     console.log('actions.userTeams');
     return userTeams({ commit });
   },
-  // // Async functions
-  // isCanAddChannel({ getters }) {
-  //   // console.log('>>>> getters.currentTeam: ',  getters.teams);
-  //
-  //   return getters.currentTeam.admin;
-  // }
+  // Async functions
+  isOwner({ getters }) {
+    // console.log('>>>> getters.currentTeam: ',  getters.teams);
+
+    return getters.currentTeam.owner === getters.userId;
+  }
 };
 
 export default {

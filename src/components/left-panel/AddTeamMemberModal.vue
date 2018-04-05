@@ -11,9 +11,9 @@
               f7-list-item
                 f7-label Member email
                 f7-input(
-                  type='email', 
-                  placeholder='E-mail', 
-                  name='email', 
+                  type='email',
+                  placeholder='E-mail',
+                  name='email',
                   :value='email',
                   @input="onChange($event)",
                   required='',
@@ -21,7 +21,7 @@
                   clear-button=''
                   data-error-message="Invalid email"
                   )
-              f7-button.col(fill='', raised='', color='green', @click='onSubmit') Create
+              f7-button.col(fill='', raised='', color='green', @click='onSubmit') Add
 </template>
 
 

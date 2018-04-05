@@ -4,9 +4,11 @@ mutation($name: String!) {
     team {
       id
       name
+      admin
       channels {
         id
         name
+        teamId
       }
     }
     errors {

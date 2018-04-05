@@ -2,7 +2,7 @@
 
 import apolloClient from './apollo/apollo-client';
 import CREATE_TEAM from './graphql/mutations/CREATE_TEAM.gql';
-import USER_TEAMS from './graphql/queries//USER_TEAMS.gql';
+import ME from './graphql/queries//ME.gql';
 
 import store from '../store';
 
@@ -18,15 +18,16 @@ export default newTeam => {
 
       if (status) {
         // // Read the data from our cache for this query.
-        const data = proxy.readQuery({ query: USER_TEAMS });
+        const data = proxy.readQuery({ query: ME });
         // // Add our tag from the mutation to the end
+
+        data.me.teams.push(team);
         console.log('data', data);
 
-        data.userTeams.push(team);
         // // // Write our data back to the cache.
-        await proxy.writeQuery({ query: USER_TEAMS, data });
+        await proxy.writeQuery({ query: ME, data });
 
-        await store.dispatch('userTeams');
+        await store.dispatch('me');
         store.commit('SET_CURRENT_TEAM_ID', team.id);
       }
     }

@@ -2,12 +2,12 @@
     div.team_channels
         f7-block-title.team_channels_title
             | Team Channels
-            f7-link.team_channels__add_channel_modal_open(popup-open='#add_channel_modal', v-if="isTeamOwner")
+            f7-link.team_channels__add_channel_modal_open(popup-open='#add_channel_modal', v-if="isCanAddChannel")
                 f7-icon.team_channels__add_icon(f7="add_round")
                 //- f7-icon.team_channels__add_icon(material="add")
 
         //- p currentChannelId: {{currentChannelId}}
-        f7-list   
+        f7-list
           f7-list-item.team_channels__list__item(
               v-for='(channel, index) in currentTeamChannels',
               :link="`/messages/${channel.teamId}/${channel.id}`",
@@ -28,7 +28,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      isTeamOwner: 'isTeamOwner',
+      isCanAddChannel: 'isCanAddChannel',
       teams: 'teams',
       currentTeamChannels: 'currentTeamChannels',
       currentTeam: 'currentTeam',
