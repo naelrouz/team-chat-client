@@ -60,9 +60,8 @@ export default [
     //   }
     // }
   },
-
   {
-    path: '/messages/:incomingTeamId/:incomingChannelId',
+    path: '/messages/:incomingMessagesType/:incomingTeamId/:incomingReceiverId',
     component: Messages
   },
   {

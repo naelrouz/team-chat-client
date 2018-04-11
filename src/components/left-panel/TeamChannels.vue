@@ -10,7 +10,7 @@
         f7-list
           f7-list-item.team_channels__list__item(
               v-for='(channel, index) in currentTeamChannels',
-              :link="`/messages/${channel.teamId}/${channel.id}`",
+              :link="`/messages/channel/${channel.teamId}/${channel.id}`",
               :title='channel.name',
               :key="channel.id",
               :class="{ active: channel.id === currentChannelId}"

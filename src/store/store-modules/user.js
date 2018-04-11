@@ -5,7 +5,7 @@ import apolloClient from '../../api/apollo/apollo-client';
 import { me } from '../../api/';
 
 const state = {
-  me: null,
+  me: {},
   allUsersList: []
   // token: localStorage.getItem('token'),
   // refreshToken: localStorage.getItem('refreshToken')

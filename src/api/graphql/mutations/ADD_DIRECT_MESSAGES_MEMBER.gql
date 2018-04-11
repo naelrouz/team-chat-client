@@ -1,0 +1,9 @@
+mutation($email: String!, $teamId: Int!) {
+  addDirectMessagesMember(email: $email, teamId: $teamId) {
+    status
+    errors {
+      path
+      message
+    }
+  }
+}

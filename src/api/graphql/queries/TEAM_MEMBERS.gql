@@ -1,0 +1,7 @@
+query($teamId: Int!) {
+  teamMembers(teamId: $teamId) {
+    id
+    username
+    email
+  }
+}

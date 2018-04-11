@@ -9,7 +9,10 @@
         f7-list-item(link='/teams/', :title='currentTeamName')
    
     team-channels
-    members
+    direct-messages-members
+
+    f7-link.team_channels__add_channel_modal_open(popup-open='#add_member_modal', v-if="isCanAddTeamMember")
+      f7-icon.team_channels__add_icon(f7="add_round")
 
     f7-block-title Load page in main view
     f7-list
@@ -18,19 +21,22 @@
 
     //- Popups
     channel-create-modal
+    add-user-to-direct-messages-modal
     add-team-member-modal
-
-
+    
 </template>
+
 <script>
 // import components
 import TeamChannels from './TeamChannels';
 import ChannelCreateModal from './ChannelCreateModal';
-import Members from './Members';
+import DirectMessagesMembers from './DirectMessagesMembers';
 import AddTeamMemberModal from './AddTeamMemberModal';
+import AddUserToDirectMessagesModal from './AddUserToDirectMessagesModal';
 
 // import store from '../../store/index';
 import { mapGetters } from 'vuex';
+import { from } from 'apollo-link';
 export default {
   computed: {
     ...mapGetters({
@@ -42,13 +48,17 @@ export default {
     })
   },
   methods: {
-    onClickAddChannelModal() {}
+    onClickAddChannelModal() {},
+    isCanAddTeamMember() {
+      return true;
+    }
   },
   components: {
-    Members,
+    DirectMessagesMembers,
     AddTeamMemberModal,
     ChannelCreateModal,
-    TeamChannels
+    TeamChannels,
+    AddUserToDirectMessagesModal
   }
 };
 </script>

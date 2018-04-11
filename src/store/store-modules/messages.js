@@ -10,16 +10,22 @@ const state = {
   status: false,
   errors: [],
   messages: [],
+  messagesType: 'channel',
   messagesSubscriptionObservers: []
 };
 
 const getters = {
   // messages: ({ messages }) => messages
-  messages: ({ messages }, { userId }) =>
-    messages.map(message => ({
-      ...message,
-      type: message.user.id === userId ? 'sent' : 'received'
-    })),
+  messages: ({ messages }, { userId }) => {
+    try {
+      return messages.map(message => ({
+        ...message,
+        type: message.user.id === userId ? 'sent' : 'received'
+      }));
+    } catch (err) {
+      console.err('getters.messages.err:', err);
+    }
+  },
   isSubscribeToMessages: ({ messagesSubscriptionObserver }) =>
     !!messagesSubscriptionObserver.subscribe
 };

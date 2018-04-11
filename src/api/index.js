@@ -5,9 +5,14 @@ import me from './me';
 import userTeams from './userTeams';
 import createChannel from './createChannel';
 import channelMessages from './channelMessages';
+import directMessages from './directMessages';
+
 import addTeamMember from './addTeamMember';
+import teamMembers from './teamMembers';
 
 import createMessage from './createMessage';
+import createDirectMessage from './createDirectMessage';
+import addDirectMessagesMember from './addDirectMessagesMember';
 
 export {
   register,
@@ -18,5 +23,9 @@ export {
   addTeamMember,
   createChannel,
   channelMessages,
-  createMessage
+  directMessages,
+  createMessage,
+  createDirectMessage,
+  teamMembers,
+  addDirectMessagesMember
 };

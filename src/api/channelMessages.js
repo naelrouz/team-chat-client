@@ -16,10 +16,10 @@ export default async channel => {
       forceFetch: true
     });
 
-    const channelMessagesObserv = await apolloClient.watchQuery({
-      query: CHANNEL_MESSAGES,
-      variables: channel
-    });
+    // const channelMessagesObserv = await apolloClient.watchQuery({
+    //   query: CHANNEL_MESSAGES,
+    //   variables: channel
+    // });
 
     // channelMessagesObserv.subscribeToMore({
     //   document: NEW_CHANNEL_MESSAGE,
@@ -31,7 +31,7 @@ export default async channel => {
     //   }
     // });
 
-    console.log('api.channelMessagesObserv: ', channelMessagesObserv);
+    // console.log('api.channelMessagesObserv: ', channelMessagesObserv);
 
     console.log('api.channelMessages: ', channelMessages);
     store.commit('SET_MESSAGES', channelMessages);

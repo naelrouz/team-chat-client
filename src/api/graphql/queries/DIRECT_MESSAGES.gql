@@ -1,0 +1,10 @@
+query($receiverId: Int!, $teamId: Int!) {
+  directMessages(receiverId: $receiverId, teamId: $teamId) {
+    id
+    text
+    user {
+      id
+      username
+    }
+  }
+}

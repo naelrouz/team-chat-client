@@ -1,0 +1,12 @@
+subscription($receiverId: Int!, $teamId: Int!) {
+  newDirectMessage(receiverId: $receiverId, teamId: $teamId) {
+    id
+    text
+    receiverId
+    createdAt
+    user {
+      id
+      username
+    }
+  }
+}

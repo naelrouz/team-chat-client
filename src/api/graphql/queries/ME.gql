@@ -6,6 +6,10 @@
       id
       name
       admin
+      directMessagesMembers {
+        id
+        username
+      }
       channels {
         id
         name

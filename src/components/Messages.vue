@@ -1,6 +1,6 @@
 <template lang="pug">
   f7-page
-    navbar()
+    navbar
     // Messagebar
     f7-messagebar.messages__messagebar(
       :placeholder='placeholder',
@@ -24,7 +24,7 @@
     // Messages
     f7-messages(ref='messages')
       f7-messages-title
-        h2 teamId: {{teamId}} / channelId: {{channelId}}
+        h2 teamId: {{teamId}} / receiverId: {{receiverId}}
         //- button(@click="onClick()") set
         b Sunday, Feb 9,
         |  12:58
@@ -57,11 +57,18 @@ import NEW_CHANNEL_MESSAGE from '../api/graphql/subscriptions/NEW_CHANNEL_MESSAG
 
 export default {
   props: {
+    incomingMessagesType: {
+      type: String,
+      required: true,
+      validator(value) {
+        return value === 'channel' || value === 'direct';
+      }
+    },
     incomingTeamId: {
       type: String,
       required: true
     },
-    incomingChannelId: {
+    incomingReceiverId: {
       type: String,
       required: true
       // validator(value) {
@@ -72,10 +79,11 @@ export default {
   data() {
     return {
       id: 1,
-      channelMessages: [],
+      // channelMessages: [],
       // messagesData: [],
+      messagesType: this.incomingMessagesType,
       teamId: parseInt(this.incomingTeamId, 10),
-      channelId: parseInt(this.incomingChannelId, 10),
+      receiverId: parseInt(this.incomingReceiverId, 10),
       attachments: [],
       sheetVisible: false,
       // Sheet images available
@@ -180,6 +188,7 @@ export default {
       // e.preventDefault();
 
       const self = this;
+      const { messagesType } = this;
       const newMessage = {};
 
       newMessage.text = self.messagebar
@@ -203,10 +212,20 @@ export default {
       // Add sent message
       // self.messagesData.push({ text, attachments });
 
-      this.$store.dispatch('createMessage', {
-        channelId: this.currentChannelId,
-        ...newMessage
-      });
+      if (messagesType === 'channel') {
+        this.$store.dispatch('createMessage', {
+          channelId: this.currentChannelId,
+          ...newMessage
+        });
+      }
+
+      if (messagesType === 'direct') {
+        this.$store.dispatch('createDirectMessage', {
+          receiverId: this.receiverId,
+          teamId: this.teamId,
+          ...newMessage
+        });
+      }
 
       // Mock response
       if (self.responseInProgress) {
@@ -280,39 +299,58 @@ export default {
     Navbar
   },
   mounted() {
-    const { teamId, channelId } = this;
+    function hashString(str) {
+      let hash = 0;
+      for (let i = 0; i < str.length; i++) {
+        hash += Math.pow(str.charCodeAt(i) * 31, str.length - i);
+        hash = hash & hash; // Convert to 32bit integer
+      }
+      return hash;
+    }
 
-    console.log('messages.mounted.teamId:', this.teamId);
-    console.log('messages.mounted.channelId:', this.channelId);
+    // const messagesB64 = {
+    //   messagesType: 'channel',
+    //   receiverId: 1,
+    //   groupId: 1
+    // };
 
-    // Programmatic subscription
-    // const observer = this.$apollo.subscribe({
-    //   query: NEW_CHANNEL_MESSAGE,
-    //   variables: {
-    //     channelId
-    //   }
-    // });
-    // observer.subscribe({
-    //   next(data) {
-    //     console.log('this.$apollo.subscribe', data);
-    //   }
-    // });
+    // console.log('>>>>>>', window.btoa(messagesB64));
 
-    // this.$store.commit('SET_CURRENT_TEAM_ID', this.teamId);
+    const { messagesType, teamId, receiverId } = this;
+    console.log('messages.mounted.messagesType:', messagesType);
+    console.log('messages.mounted.teamId:', teamId);
+    console.log('messages.mounted.receiverId:', receiverId);
 
-    // if (!teamId.isInteger || !channelId.isInteger) {
-    //   this.$f7router.navigate('/not-found');
+    // switch (messagesType) {
+    //   case 'group':
+    //     break;
 
-    //   console.log('GOTO: ERR PAGE');
+    //   case 'direct':
+    //     break;
+
+    //   default:
+    //     break;
     // }
 
-    const channel = {
-      teamId,
-      channelId
-    };
+    if (messagesType === 'channel') {
+      const channel = {
+        teamId,
+        channelId: receiverId
+      };
 
-    this.$store.dispatch('loadChannelMessages', channel);
-    this.$store.dispatch('subscribeToMessages', channel);
+      this.$store.dispatch('loadChannelMessages', channel);
+      this.$store.dispatch('subscribeToMessages', channel);
+    }
+
+    if (messagesType === 'direct') {
+      const direct = {
+        teamId,
+        receiverId
+      };
+
+      this.$store.dispatch('loadDirectMessages', direct);
+      // this.$store.dispatch('subscribeToDirectMessages', user);
+    }
   }
   // destroyed() {
   //   this.$store.dispatch('unsubscribeFromMessages');

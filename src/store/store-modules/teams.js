@@ -4,6 +4,7 @@ import { userTeams } from '../../api/';
 
 const state = {
   currentTeamId: -1,
+  currentTeamMembers: [],
   currentChannelId: -1
 };
 
@@ -52,6 +53,14 @@ const getters = {
 
     try {
       return getters.currentTeam.name;
+    } catch (err) {
+      console.error('err: ', err.toString());
+      return null;
+    }
+  },
+  currentTeamMembers: (state, getters) => {
+    try {
+      return state.currentTeamMembers.map(item => `${item.email}`);
     } catch (err) {
       console.error('err: ', err.toString());
       return null;
@@ -118,11 +127,16 @@ const mutations = {
   SET_TEAMS(state, userTeams) {
     state.teams = userTeams;
   },
+
   SET_CURRENT_TEAM_ID(state, teamId) {
     console.log('SET_CURRENT_TEAM_ID.id:', teamId);
 
     state.currentTeamId = teamId;
   },
+  SET_CURRENT_TEAM_MEMBERS(state, currentTeamMembers) {
+    state.currentTeamMembers = currentTeamMembers;
+  },
+  // channels
   SET_CURRENT_CHANNEL_ID(state, channelId) {
     console.log('SET_CURRENT_TEAM_ID.id:', channelId);
 
@@ -135,7 +149,7 @@ const actions = {
   userTeams({ commit }) {
     console.log('actions.userTeams');
     return userTeams({ commit });
-  },
+  }
   // // Async functions
   // isCanAddChannel({ getters }) {
   //   // console.log('>>>> getters.currentTeam: ',  getters.teams);

@@ -1,0 +1,7 @@
+query($teamId: Int!) {
+  directMessagesMembers(teamId: $teamId) {
+    id
+    username
+    teamId
+  }
+}
