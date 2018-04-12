@@ -1,0 +1,6 @@
+subscription($teamId: Int!) {
+  newDirectMessagesMember(teamId: $teamId) {
+    id
+    username
+  }
+}

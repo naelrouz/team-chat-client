@@ -15,14 +15,13 @@ const state = {
 
 const getters = {
   // messages: ({ messages }) => messages
-  directMessagesMembers: (state, getters) => {
-    try {
-      return getters.currentTeam.directMessagesMembers;
-    } catch (err) {
-      console.error('getters.directMessagesMembers.err: ', err);
-    }
-  }
-
+  // directMessagesMembers: (state, getters) => {
+  //   try {
+  //     return getters.currentTeam.directMessagesMembers;
+  //   } catch (err) {
+  //     console.error('getters.directMessagesMembers.err: ', err);
+  //   }
+  // }
   //   isSubscribeToMessages: ({ messagesSubscriptionObserver }) =>
   //     !!messagesSubscriptionObserver.subscribe
 };

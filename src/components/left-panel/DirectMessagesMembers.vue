@@ -32,7 +32,12 @@ export default {
       directMessagesMembers: 'directMessagesMembers'
     })
   },
-  methods: {}
+  methods: {},
+  mounted() {
+    this.$store.dispatch('subscribeToNewDirectMessagesMembers', {
+      teamId: this.currentTeamId
+    });
+  }
 };
 </script>
 

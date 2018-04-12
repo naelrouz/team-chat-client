@@ -1,6 +1,7 @@
 mutation($email: String!, $teamId: Int!) {
   addTeamMember(email: $email, teamId: $teamId) {
     status
+    member
     errors {
       path
       message

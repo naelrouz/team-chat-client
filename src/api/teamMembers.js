@@ -35,7 +35,9 @@ export default async team => {
 
     console.log('api.teamMembers: ', teamMembers);
     store.commit('SET_CURRENT_TEAM_MEMBERS', teamMembers);
+    return teamMembers;
   } catch (err) {
     console.error('api.teamMembers.err:', err);
+    return null;
   }
 };

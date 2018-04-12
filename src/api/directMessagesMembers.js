@@ -9,11 +9,11 @@ import store from '../store';
 
 export default async team => {
   try {
-    console.log('api.directMessagesMembers.user:', direct);
+    console.log('api.directMessagesMembers.user:', team);
 
     const { data: { directMessagesMembers } } = await apolloClient.query({
-      query: DIRECT_MESSAGES,
-      variables: direct
+      query: DIRECT_MESSAGES_MEMBERS,
+      variables: team
     });
 
     // console.log('api.directMessagesMembersObserv: ', directMessagesMembersObserv);

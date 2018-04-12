@@ -25,9 +25,9 @@ const getters = {
     } catch (err) {
       console.err('getters.messages.err:', err);
     }
-  },
-  isSubscribeToMessages: ({ messagesSubscriptionObserver }) =>
-    !!messagesSubscriptionObserver.subscribe
+  }
+  // isSubscribeToMessages: ({ messagesSubscriptionObserver }) =>
+  //   !!messagesSubscriptionObserver.subscribe
 };
 
 const mutations = {

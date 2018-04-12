@@ -14,6 +14,7 @@
                   :currentTeamMembers="currentTeamMembers",
                   @inputEmail="inputEmail"
                   )
+              h1 inputEmail: {{email}}    
           f7-block        
             f7-button.col(fill='', raised='', color='green', @click='onSubmit') Add
 </template>

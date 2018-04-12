@@ -13,6 +13,7 @@ import user from './store-modules/user';
 import teams from './store-modules/teams';
 import messages from './store-modules/messages';
 import directMessages from './store-modules/directMessages';
+import directMessagesMembers from './store-modules/directMessagesMembers';
 
 Vue.use(Vuex);
 
@@ -26,7 +27,8 @@ export default new Vuex.Store({
     user,
     teams,
     messages,
-    directMessages
+    directMessages,
+    directMessagesMembers
   },
   // Options
   strict: true,
