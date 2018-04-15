@@ -3,6 +3,7 @@ subscription($receiverId: Int!, $teamId: Int!) {
     id
     text
     receiverId
+    teamId
     createdAt
     user {
       id

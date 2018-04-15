@@ -1,10 +1,6 @@
 mutation($email: String!, $teamId: Int!) {
   addDirectMessagesMember(email: $email, teamId: $teamId) {
     status
-    member {
-      id
-      username
-    }
     errors {
       path
       message

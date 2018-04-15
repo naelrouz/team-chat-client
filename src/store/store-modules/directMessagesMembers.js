@@ -22,14 +22,8 @@ const getters = {
       console.error('getters.directMessagesMembers.err: ', err);
     }
   }
-
-  //   isSubscribeToMessages: ({ messagesSubscriptionObserver }) =>
-  //     !!messagesSubscriptionObserver.subscribe
 };
 const mutations = {
-  //   SET_MESSAGES(state, channelMessages) {
-  //     state.messages = channelMessages;
-  //   },
   SET_DIRECT_MESSAGES_MEMBER_SUBSCRIPTION_OBSERVER(
     state,
     { directMessagesMemberSubscriptionObserver, teamId }
@@ -41,20 +35,6 @@ const mutations = {
 };
 
 const actions = {
-  loadDirectMessages({ commit }, receiver) {
-    // load all Teams and set current Teams and Channel
-    const { teamId, receiverId } = receiver;
-    directMessages(receiver);
-    // ???
-    // commit('SET_CURRENT_TEAM_ID', teamId);
-    // commit('SET_CURRENT_CHANNEL_ID', receiverId);
-  },
-  createDirectMessage({ commit }, newMessage) {
-    console.log('actions.createDirectMessage.newMessage:', newMessage);
-    // load all Teams and set current Teams and Channel
-    createDirectMessage(newMessage);
-  },
-  // Subscriptions
   async subscribeToNewDirectMessagesMembers(
     { state, commit, dispatch },
     payload
@@ -88,10 +68,7 @@ const actions = {
           variables: payload
         }
       );
-      console.log(
-        '>>>>>>>>> messagesSubscriptionObserver: ',
-        directMessagesMemberSubscriptionObserver
-      );
+
       await directMessagesMemberSubscriptionObserver.subscribe({
         next({ data: { newDirectMessagesMember } }) {
           // console.log('>>>> data: ', data);

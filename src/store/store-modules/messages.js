@@ -78,11 +78,6 @@ const actions = {
         variables: channel
       });
 
-      console.log(
-        '>>>>>>>>> messagesSubscriptionObserver: ',
-        messagesSubscriptionObserver
-      );
-
       await messagesSubscriptionObserver.subscribe({
         next({ data: { newChannelMessage } }) {
           console.log(
@@ -138,8 +133,7 @@ const actions = {
 
     const channelMessagesQuery = {
       query: CHANNEL_MESSAGES,
-      variables: { channelId },
-      kind: 'Document'
+      variables: { channelId }
     };
 
     const data = await apolloClient.readQuery(channelMessagesQuery);

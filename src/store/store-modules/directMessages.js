@@ -1,16 +1,16 @@
 // // import _ from 'lodash';
 
 import { directMessages, createDirectMessage } from '../../api/';
-// import apolloClient from '../../api/apollo/apollo-client';
+import apolloClient from '../../api/apollo/apollo-client';
 
-// import CHANNEL_MESSAGES from '../../api/graphql/queries/CHANNEL_MESSAGES.gql';
-// import NEW_CHANNEL_MESSAGE from '../../api/graphql/subscriptions/NEW_CHANNEL_MESSAGE.gql';
+import DIRECT_MESSAGES from '../../api/graphql/queries/DIRECT_MESSAGES.gql';
+import NEW_DIRECT_MESSAGE from '../../api/graphql/subscriptions/NEW_DIRECT_MESSAGE.gql';
 
 const state = {
   //   status: false,
   //   errors: [],
   //   messages: [],
-  directMessagesSubscriptionObservers: []
+  directMessagesSubscriptionObserversList: {}
 };
 
 const getters = {
@@ -25,107 +25,112 @@ const getters = {
   //   isSubscribeToMessages: ({ messagesSubscriptionObserver }) =>
   //     !!messagesSubscriptionObserver.subscribe
 };
-// const mutations = {
-//   SET_MESSAGES(state, channelMessages) {
-//     state.messages = channelMessages;
-//   },
-//   SET_MESSAGES_SUBSCRIPTION_OBSERVER(
-//     state,
-//     { messagesSubscriptionObserver, channelId }
-//   ) {
-//     state.messagesSubscriptionObservers[
-//       channelId
-//     ] = messagesSubscriptionObserver;
-//   }
-// };
+const mutations = {
+  SET_DIRECT_MESSAGES_SUBSCRIPTION_OBSERVER(
+    state,
+    { directMessagesSubscriptionObserver, teamId }
+  ) {
+    state.directMessagesSubscriptionObserversList[
+      teamId
+    ] = directMessagesSubscriptionObserver;
+  }
+};
 
 const actions = {
-  loadDirectMessages({ commit }, receiver) {
+  loadDirectMessages({ commit }, payload) {
     // load all Teams and set current Teams and Channel
-    const { teamId, receiverId } = receiver;
-    directMessages(receiver);
-    // ???
-    // commit('SET_CURRENT_TEAM_ID', teamId);
-    // commit('SET_CURRENT_CHANNEL_ID', receiverId);
+    const { teamId, receiverId } = payload;
+    directMessages(payload);
   },
   createDirectMessage({ commit }, newMessage) {
     console.log('actions.createDirectMessage.newMessage:', newMessage);
     // load all Teams and set current Teams and Channel
     createDirectMessage(newMessage);
+  },
+  async subscribeToNewDirectMessages({ state, commit, dispatch }, payload) {
+    try {
+      console.log(
+        'state.directMessagesMembersSubscriptionObservers: ',
+        state.directMessagesMembersSubscriptionObservers
+      );
+
+      if (state.directMessagesSubscriptionObserversList[payload.teamId]) {
+        console.log(
+          `- directMessagesSubscriptionObservers[${payload.teamId}] is isset`
+        );
+        return;
+      }
+    } catch (err) {
+      console.error(
+        'actions.subscribeToNewDirectMessages.err:',
+        err.toString()
+      );
+    }
+
+    try {
+      const directMessagesSubscriptionObserver = await apolloClient.subscribe({
+        query: NEW_DIRECT_MESSAGE,
+        variables: payload
+      });
+
+      await directMessagesSubscriptionObserver.subscribe({
+        next({ data: { newDirectMessage } }) {
+          // console.log('>>>> data: ', data);
+
+          console.log(
+            'actions.subscribeTonewDirectMessages.newDirectMessage: ',
+            newDirectMessage
+          );
+          if (!newDirectMessage.user) {
+            throw Error('New Channel Message not contain User data');
+          }
+          dispatch('addNewDirectMessage', newDirectMessage);
+        },
+        error(error) {
+          console.error(error);
+        }
+      });
+
+      commit('SET_DIRECT_MESSAGES_SUBSCRIPTION_OBSERVER', {
+        directMessagesSubscriptionObserver,
+        teamId: payload.teamId
+      });
+
+      console.log(
+        `+ directMessagesSubscriptionObserver[${payload.teamId}] added`
+      );
+    } catch (err) {
+      console.error('actions.subscribeTonewDirectMessages.err: ', err);
+    }
+  },
+  async addNewDirectMessage({ state, commit, dispatch }, newDirectMessage) {
+    console.log('addNewDirectMessage.newDirectMessage: ', newDirectMessage);
+
+    // const { messages } = state;
+    const { teamId, receiverId } = newDirectMessage;
+    const directMessagesQuery = {
+      query: DIRECT_MESSAGES,
+      variables: { teamId, receiverId }
+    };
+    const data = await apolloClient.readQuery(directMessagesQuery);
+
+    data.directMessages.push({
+      ...newDirectMessage
+    });
+
+    console.log('addnewDirectMessage.data: ', data);
+
+    apolloClient.writeQuery({
+      ...directMessagesQuery,
+      data
+    });
+    dispatch('loadDirectMessages', { teamId, receiverId });
   }
-  // Subscriptions
-  // async subscribeToMessages({ state, commit, dispatch }, channel) {
-  //   try {
-  //     if (state.messagesSubscriptionObservers[channel.channelId]) {
-  //       console.log(
-  //         `- messagesSubscriptionObservers[${channel.channelId}] is isset`
-  //       );
-  //       return;
-  //     }
-  //   } catch (err) {
-  //     console.log('subscribeToMessages.err:', err);
-  //   }
-  //   try {
-  //     const messagesSubscriptionObserver = await apolloClient.subscribe({
-  //       query: NEW_CHANNEL_MESSAGE,
-  //       variables: channel
-  //     });
-  //     console.log(
-  //       '>>>>>>>>> messagesSubscriptionObserver: ',
-  //       messagesSubscriptionObserver
-  //     );
-  //     await messagesSubscriptionObserver.subscribe({
-  //       next({ data: { newChannelMessage } }) {
-  //         console.log(
-  //           'api.channelMessages.apolloClient.subscribe.newChannelMessage: ',
-  //           newChannelMessage
-  //         );
-  //         if (!newChannelMessage.user) {
-  //           throw Error('New Channel Message not contain User data');
-  //         }
-  //         dispatch('addNewMessage', newChannelMessage);
-  //       },
-  //       error(error) {
-  //         console.log(error);
-  //       }
-  //     });
-  //     commit('SET_MESSAGES_SUBSCRIPTION_OBSERVER', {
-  //       messagesSubscriptionObserver,
-  //       channelId: channel.channelId
-  //     });
-  //     console.log(
-  //       `+ messagesSubscriptionObservers[${channel.channelId}] added`
-  //     );
-  //   } catch (err) {
-  //     console.error('subscribeToMessages.err: ', err);
-  //   }
-  // },
-  // async addNewMessage({ state, commit }, newMessage) {
-  //   const { messages } = state;
-  //   const { channelId } = newMessage;
-  //   const channelMessagesQuery = {
-  //     query: CHANNEL_MESSAGES,
-  //     variables: { channelId },
-  //     kind: 'Document'
-  //   };
-  //   const data = await apolloClient.readQuery(channelMessagesQuery);
-  //   data.channelMessages.push({ ...newMessage });
-  //   console.log('>>> channelMessagesData', data);
-  //   // apolloClient.writeQuery(
-  //   //   ...channelMessagesQuery,
-  //   //   (data: channelMessagesData)
-  //   // );
-  //   apolloClient.writeQuery({
-  //     ...channelMessagesQuery,
-  //     data
-  //   });
-  //   commit('SET_MESSAGES', [...messages, newMessage]);
-  // }
 };
 
 export default {
   state,
   getters,
-  // mutations,
+  mutations,
   actions
 };

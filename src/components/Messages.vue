@@ -292,8 +292,10 @@ export default {
     //   const self = this;
     //   self.messagebar = self.$refs.messagebar.f7Messagebar;
     // }
-    msgDateFormat: date => date
-    // moment(date).format('MMMM Do YYYY, h:mm:ss a')
+    msgDateFormat: date => {
+      // moment.locale('ru');
+      return moment(new Date(date)).format('MMMM Do YYYY, h:mm:ss a');
+    }
   },
   components: {
     Navbar
@@ -349,7 +351,7 @@ export default {
       };
 
       this.$store.dispatch('loadDirectMessages', direct);
-      // this.$store.dispatch('subscribeToDirectMessages', user);
+      this.$store.dispatch('subscribeToNewDirectMessages', direct);
     }
   }
   // destroyed() {
