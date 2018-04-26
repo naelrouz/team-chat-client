@@ -12,6 +12,7 @@
     direct-messages-members
 
     f7-link.team_channels__add_channel_modal_open(popup-open='#add_member_modal', v-if="isCanAddTeamMember")
+      f7-block-title invite to team
       f7-icon.team_channels__add_icon(f7="add_round")
 
     f7-block-title Load page in main view
